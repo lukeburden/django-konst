@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
-from django.utils.translation import ugettext_lazy as _
 from django.utils.deconstruct import deconstructible
 
 # https://code.djangoproject.com/wiki/CookBookChoicesContantsClass
@@ -60,10 +59,10 @@ class Constant(object):
 
     def __getattr__(self, attr):
         """Allow dynamic lookup of equality and label."""
-        if attr == 'constants':
+        if attr == "constants":
             # https://nedbatchelder.com/blog/201010/surprising_getattr_recursion.html
             raise AttributeError(
-                '`constants` not set on Constant so cannot check equality'
+                "`constants` not set on Constant so cannot check equality"
             )
         if attr in self.constants.by_id:
             return self.v == self.constants.by_id[attr].v
@@ -90,11 +89,9 @@ class Constants(object):
         self.constants = args
         for c in self.constants:
             setattr(self, c.id, c)
-            setattr(c, 'constants', self)
+            setattr(c, "constants", self)
         # and a set of useful precomputed lookups
         self.choices = [(k.v, k.label) for k in self.constants]
         self.by_value = dict([(k.v, k.id) for k in self.constants])
         self.full_by_value = dict([(k.v, k) for k in self.constants])
         self.by_id = dict([(k.id, k) for k in self.constants])
-
-

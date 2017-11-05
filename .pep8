@@ -1,0 +1,6 @@
+[flake8]
+exclude=.git,contrib
+ignore=E402,D100,D101,D102,D105,N802,D103
+max-line-length=100
+max-complexity=10
+inline-quotes=double

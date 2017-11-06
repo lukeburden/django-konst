@@ -47,6 +47,18 @@ class ConstantTestCase(TestCase):
         self.assertEqual(Apple.colours.red, Apple.colours.red)
         self.assertNotEqual(Apple.colours.red, Apple.colours.green)
 
+    def test_constant_in_group(self):
+        self.assertEqual(
+            Apple.purposes.culinary,
+            set(
+                [
+                    Apple.purposes.eating,
+                    Apple.purposes.cooking,
+                    Apple.purposes.juicing
+                ]
+            )
+        )
+
 
 class ConstantChoiceFieldTestCase(TestCase):
 
@@ -147,6 +159,18 @@ class ConstantChoiceFieldTestCase(TestCase):
         else:
             self.assertTrue(colour.red)
             self.assertFalse(colour.green)
+
+    def test_group_in_filter(self):
+        self.assertEqual(
+            Apple.objects.filter(
+                purpose__in=Apple.purposes.culinary
+            ).count(), 1
+        )
+        instance = Apple.objects.filter(
+            purpose__in=Apple.purposes.culinary
+        ).first()
+        self.assertEqual(self.instance, instance)
+        self.assertTrue(instance.purpose.culinary)
 
 
 class ConstantJSONSerializerTestCase(TestCase):

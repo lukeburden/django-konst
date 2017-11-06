@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from constants.constants import Constant, Constants
+from constants.constants import Constant, ConstantGroup, Constants
 from constants.models.fields import (
     ConstantChoiceCharField,
     ConstantChoiceField
@@ -18,9 +18,9 @@ class Apple(models.Model):
         Constant(eating=1, label=_("Eat me!")),
         Constant(juicing=2, label=_("Juice me!")),
         Constant(ornamental=3, label=_("Just look how pretty I am!")),
-        # ConstantGroup(
-        #     name="culinary", includes=("cooking", "eating", "juicing")
-        # )
+        ConstantGroup(
+            "culinary", ("cooking", "eating", "juicing")
+        )
     )
     colours = Constants(
         Constant(red="FF0000", label=_("red")),

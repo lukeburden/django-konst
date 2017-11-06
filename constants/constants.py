@@ -65,6 +65,8 @@ class Constant(object):
             )
         if attr in self.constants.by_id:
             return self.v == self.constants.by_id[attr].v
+        if attr in self.constants.groups:
+            return self.id in self.constants.groups[attr].constant_ids
         else:
             raise AttributeError(
                 "'{}' object has no attribute '{}'".format(
@@ -83,15 +85,41 @@ class Constant(object):
     __nonzero__ = __bool__
 
 
+class ConstantGroup(object):
+
+    def __init__(self, name, constant_ids):
+        self.name = name
+        self.constant_ids = set(constant_ids)
+
+
 class Constants(object):
 
     def __init__(self, *args):
-        self.constants = args
-        for c in self.constants:
-            setattr(self, c.id, c)
-            setattr(c, "constants", self)
-        # and a set of useful precomputed lookups
+        self.constants = []
+        self.groups = {}
+        for a in args:
+            if isinstance(a, Constant):
+                self.constants.append(a)
+                setattr(self, a.id, a)
+                # add a reference to this class to the Constant instance
+                setattr(a, "constants", self)
+            elif isinstance(a, ConstantGroup):
+                self.groups[a.name] = a
+            else:
+                raise ValueError("Received unexpected arg: {}".format(a))
+
+        # setup useful precomputed lookups
         self.choices = [(k.v, k.label) for k in self.constants]
         self.by_value = dict([(k.v, k.id) for k in self.constants])
         self.full_by_value = dict([(k.v, k) for k in self.constants])
         self.by_id = dict([(k.id, k) for k in self.constants])
+
+        # setup groups
+        for name, group in self.groups.items():
+            if hasattr(self, name):
+                raise ValueError(
+                    "ConstantGroup with name `{}` clashes with existing attribute.".format(
+                        name
+                    )
+                )
+            setattr(self, a.name, set([self.by_id[i] for i in group.constant_ids]))

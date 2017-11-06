@@ -37,7 +37,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.1
         environment:
-          - TOXENV=checkqa,check_migrated
+          - TOXENV=checkqa
           - UPLOAD_COVERAGE=0
   py27dj18:
     <<: *common
@@ -117,16 +117,6 @@ jobs:
       - image: circleci/python:3.6
         environment:
           TOXENV=py36-dj20
-  py36dj20psql:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          - TOXENV=py36-dj20-postgres
-          - CONSTANT_DATABASE_HOST=127.0.0.1
-          - CONSTANT_DATABASE_USER=root
-          - CONSTANT_DATABASE_NAME=circle_test
-      - image: circleci/postgres:9.6-alpine
 
 workflows:
   version: 2
@@ -146,4 +136,3 @@ workflows:
       - py35dj20
       - py36dj111
       - py36dj20
-      - py36dj20psql

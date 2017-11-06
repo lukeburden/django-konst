@@ -4,7 +4,6 @@ from __future__ import absolute_import
 from django.utils.deconstruct import deconstructible
 from django.utils.encoding import python_2_unicode_compatible
 
-
 # https://code.djangoproject.com/wiki/CookBookChoicesContantsClass
 # modified to work with translation plus fields
 

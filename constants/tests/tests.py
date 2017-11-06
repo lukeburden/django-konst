@@ -29,20 +29,17 @@ class ConstantTestCase(TestCase):
             repr(Apple.colours.red), u"red (FF0000)"
         )
 
-    def test_unicode(self):
-        self.assertEqual(unicode(Apple.purposes.cooking), u"0")
-        self.assertEqual(unicode(Apple.colours.red), u"FF0000")
-
     def test_str(self):
-        self.assertEqual(str(Apple.purposes.cooking), "0")
+        self.assertEqual(str(Apple.purposes.cooking), u"0")
+        self.assertEqual(str(Apple.colours.red), u"FF0000")
 
     def test_comparison_with_int(self):
         self.assertEqual(Apple.purposes.cooking, 0)
         self.assertNotEqual(Apple.purposes.cooking, 1)
 
     def test_comparison_with_char(self):
-        self.assertEqual(Apple.colours.red, "FF0000")
-        self.assertNotEqual(Apple.colours.red, "FF0001")
+        self.assertEqual(Apple.colours.red, u"FF0000")
+        self.assertNotEqual(Apple.colours.red, u"FF0001")
 
     def test_comparison_with_constant(self):
         self.assertEqual(Apple.purposes.cooking, Apple.purposes.cooking)
@@ -60,7 +57,7 @@ class ConstantChoiceFieldTestCase(TestCase):
 
     def test_create_and_save(self):
         gala = Apple.objects.create(
-            name="Gala",
+            name=u"Gala",
             colour=Apple.colours.red,
             purpose=Apple.purposes.eating
         )
@@ -85,11 +82,11 @@ class ConstantChoiceFieldTestCase(TestCase):
     def test_widget_force_text(self):
         self.assertEqual(
             force_text(self.instance.colour),
-            unicode(self.instance.colour.v)
+            u"{}".format(self.instance.colour.v)
         )
         self.assertEqual(
             force_text(self.instance.purpose),
-            unicode(self.instance.purpose.v)
+            u"{}".format(self.instance.purpose.v)
         )
 
     def test_getattr_equality_check(self):
@@ -108,7 +105,7 @@ class ConstantChoiceFieldTestCase(TestCase):
         # if the grannysmith exists we"re good
         # as the tests have already loaded the fixture
         instance = Apple.objects.all().first()
-        self.assertEqual(instance.name, "Granny Smith")
+        self.assertEqual(instance.name, u"Granny Smith")
         self.assertTrue(instance.colour.green)
         self.assertTrue(instance.purpose.cooking)
 
@@ -121,7 +118,7 @@ class ConstantChoiceFieldTestCase(TestCase):
         sys.stdout = sysout
         self.assertEqual(
             dumped_data[0]["fields"]["colour"],
-            unicode(Apple.colours.green)
+            u"{}".format(Apple.colours.green)
         )
 
     def test_copy(self):

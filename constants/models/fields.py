@@ -67,7 +67,7 @@ class ConstantChoiceCharField(
             return value
         if isinstance(value, Constant):
             return value
-        return self.constants.full_by_value.get(unicode(value))
+        return self.constants.full_by_value.get(u"{}".format(value))
 
 
 __all__ = [ConstantChoiceField, ConstantChoiceCharField]

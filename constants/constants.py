@@ -2,12 +2,15 @@
 from __future__ import absolute_import
 
 from django.utils.deconstruct import deconstructible
+from django.utils.encoding import python_2_unicode_compatible
+
 
 # https://code.djangoproject.com/wiki/CookBookChoicesContantsClass
 # modified to work with translation plus fields
 
 
 @deconstructible
+@python_2_unicode_compatible
 class Constant(object):
 
     def __init__(self, label=None, **kwargs):
@@ -19,10 +22,7 @@ class Constant(object):
         self.label = label or self.id
 
     def __str__(self):
-        return str(self.v)
-
-    def __unicode__(self):
-        return unicode(self.v)
+        return u"{}".format(self.v)
 
     def __repr__(self):
         return u"{} ({})".format(
@@ -80,6 +80,7 @@ class Constant(object):
     def __bool__(self):
         """Evaluate all Constant instances to True."""
         return True
+
     __nonzero__ = __bool__
 
 

@@ -4,7 +4,6 @@ from __future__ import absolute_import
 import copy
 import pickle
 import sys
-from StringIO import StringIO
 
 from django.core.management import call_command
 from django.test import TestCase
@@ -13,6 +12,11 @@ from django.utils.encoding import force_text
 from constants import json
 from constants.constants import Constant
 from constants.tests.models import Apple
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 
 class ConstantTestCase(TestCase):

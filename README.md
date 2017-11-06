@@ -153,7 +153,7 @@ Coming soon.
 
 ## Contribute
 
-`django-constants` supports a variety of Python and Django versions. It's best if you test each one of these before committing. Our [Circle CI Integration](https://circleci.com will test these when you push but knowing before you commit prevents from having to do a lot of extra commits to get the build to pass.
+`django-constants` supports a variety of Python and Django versions. It's best if you test each one of these before committing. Our [Circle CI Integration](https://circleci.com) will test these when you push but knowing before you commit prevents from having to do a lot of extra commits to get the build to pass.
 
 ### Environment Setup
 

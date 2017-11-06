@@ -26,9 +26,7 @@ This app provides convenient constants fields to improve readability
 and consistency of code and templates.
 """
 
-tests_require = [
-    "mock",
-]
+tests_require = ["pytest", "pytest-django"]
 
 setup(
     name=NAME,
@@ -52,13 +50,8 @@ setup(
         "Framework :: Django",
     ],
     install_requires=[
-        "django-appconf>=1.0.1",
-        "django>=1.8",
-        "six"
+        "django>=1.8"
     ],
-    extras_require={
-        "pytest": ["pytest", "pytest-django"] + tests_require,
-    },
     test_suite="runtests.runtests",
     tests_require=tests_require,
     zip_safe=False,

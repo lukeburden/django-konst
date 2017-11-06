@@ -1,0 +1,11 @@
+[
+    {
+        "pk": 1,
+        "model": "tests.apple",
+        "fields": {
+            "colour": "00FF00",
+            "name": "Granny Smith",
+            "purpose": "0"
+        }
+    }
+]

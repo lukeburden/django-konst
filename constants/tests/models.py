@@ -11,14 +11,7 @@ from constants.models.fields import (
 )
 
 
-class Fruit(models.Model):
-
-    colours = Constants(
-        Constant(red="FF0000", label=_("red")),
-        Constant(green="00FF00", label=_("green")),
-        Constant(yellow="FFFF80", label=_("yellow")),
-        Constant(white="FFFFFF", label=_("white")),
-    )
+class Apple(models.Model):
 
     purposes = Constants(
         Constant(cooking=0, label=_("Cook me!")),
@@ -29,7 +22,13 @@ class Fruit(models.Model):
         #     name="culinary", includes=("cooking", "eating", "juicing")
         # )
     )
+    colours = Constants(
+        Constant(red="FF0000", label=_("red")),
+        Constant(green="00FF00", label=_("green")),
+        Constant(yellow="FFFF80", label=_("yellow")),
+        Constant(white="FFFFFF", label=_("white")),
+    )
 
     name = models.CharField(max_length=30)
-    colour = ConstantChoiceField(constants=colours)
-    purpose = ConstantChoiceCharField(constants=purposes)
+    purpose = ConstantChoiceField(constants=purposes)
+    colour = ConstantChoiceCharField(constants=colours, max_length=30)

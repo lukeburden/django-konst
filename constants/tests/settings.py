@@ -25,6 +25,7 @@ if django.VERSION < (1, 10):
 ROOT_URLCONF = "constants.tests.urls"
 INSTALLED_APPS = [
     "constants",
+    "constants.tests",
 ]
 SITE_ID = 1
 

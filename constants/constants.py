@@ -58,10 +58,10 @@ class Constant(object):
 
     def __getattr__(self, attr):
         """Allow dynamic lookup of equality and label."""
-        if attr == "constants":
+        if attr == u"constants":
             # https://nedbatchelder.com/blog/201010/surprising_getattr_recursion.html
             raise AttributeError(
-                "`constants` not set on Constant so cannot check equality"
+                u"`constants` not set on Constant so cannot check equality"
             )
         if attr in self.constants.by_id:
             return self.v == self.constants.by_id[attr].v
@@ -69,7 +69,7 @@ class Constant(object):
             return self.id in self.constants.groups[attr].constant_ids
         else:
             raise AttributeError(
-                "'{}' object has no attribute '{}'".format(
+                u"'{}' object has no attribute '{}'".format(
                     self.__class__.__name__, attr
                 )
             )
@@ -106,19 +106,18 @@ class Constants(object):
             elif isinstance(a, ConstantGroup):
                 self.groups[a.name] = a
             else:
-                raise ValueError("Received unexpected arg: {}".format(a))
+                raise ValueError(u"Received unexpected arg: {}".format(a))
 
         # setup useful precomputed lookups
         self.choices = [(k.v, k.label) for k in self.constants]
-        self.by_value = dict([(k.v, k.id) for k in self.constants])
-        self.full_by_value = dict([(k.v, k) for k in self.constants])
+        self.by_value = dict([(k.v, k) for k in self.constants])
         self.by_id = dict([(k.id, k) for k in self.constants])
 
         # setup groups
         for name, group in self.groups.items():
             if hasattr(self, name):
                 raise ValueError(
-                    "ConstantGroup with name `{}` clashes with existing attribute.".format(
+                    u"ConstantGroup with name `{}` clashes with existing attribute.".format(
                         name
                     )
                 )

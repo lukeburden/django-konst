@@ -149,7 +149,74 @@ culinary_apples = Apple.objects.filter(
 
 #### With Django Rest Framework ####
 
-Coming soon.
+Using the `constants.extras.drf.fields.ConstantChoiceField` serializer field with the
+Django Rest Framework it is possible to both output and receive constant values.
+
+```python
+from constants.extras.drf.fields import ConstantChoiceField
+
+from rest_framework import serializers
+
+
+class AppleSerializer(serializers.ModelSerializer):
+
+    purpose = DRFConstantChoiceField(Apple.purposes)
+    colour = DRFConstantChoiceField(Apple.colours)
+
+    class Meta:
+        model = Apple
+        fields = (
+            "name", "purpose", "colour"
+        )
+
+
+# let's see how it handles bad values
+serializer = AppleSerializer(
+    data={
+        "name": "Fuji",
+        "colour": "blue",
+        "purpose": "dicing"
+    }
+)
+serializer.is_valid()
+False
+serializer.errors
+{
+    'colour': [u'"blue" is not a valid choice.'],
+    'purpose': [u'"dicing" is not a valid choice.']
+}
+
+
+# and now how it handles some good values
+serializer = AppleSerializer(
+    data={
+        "name": "Fuji",
+        "colour": "red",
+        "purpose": "eating"
+    }
+)
+serializer.is_valid()
+True
+
+
+# let's create a database entry!
+instance = serializer.save()
+
+
+# and now our instance can be interacted with neatly
+instance.colour.red
+True
+
+
+# finally, let's see how this looks when rendering JSON
+AppleSerializer(instance=instance).data
+{
+    "name": "Fuji",
+    "colour": "red",
+    "purpose": "eating"
+}
+
+```
 
 ## Contribute
 
@@ -157,9 +224,9 @@ Coming soon.
 
 ### Environment Setup
 
-In order to easily test on all these Pythons and run the exact same thing that Travis CI will execute you'll want to setup [pyenv](https://github.com/yyuu/pyenv) and install the Python versions outlined in [tox.ini](tox.ini).
+In order to easily test on all these Pythons and run the exact same thing that CI will execute you'll want to setup [pyenv](https://github.com/yyuu/pyenv) and install the Python versions outlined in [tox.ini](tox.ini).
 
-If you are on the Mac, it's recommended you use [brew](http://brew.sh/). After installing `brew` run:
+If you are on Mac OS X, it's recommended you use [brew](http://brew.sh/). After installing `brew` run:
 
 ```
 $ brew install pyenv pyenv-virtualenv pyenv-virtualenvwrapper

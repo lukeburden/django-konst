@@ -26,6 +26,7 @@ ROOT_URLCONF = "constants.tests.urls"
 INSTALLED_APPS = [
     "constants",
     "constants.tests",
+    "rest_framework"
 ]
 SITE_ID = 1
 

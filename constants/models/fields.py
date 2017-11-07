@@ -22,7 +22,7 @@ class ConstantChoiceFieldMixin(object):
             return value
         if isinstance(value, Constant):
             return value
-        return self.constants.full_by_value.get(int(value))
+        return self.constants.by_value.get(int(value))
 
     def get_prep_value(self, value):
         # print "get_prep_value: {}: {}".format(type(value), value)
@@ -37,7 +37,7 @@ class ConstantChoiceFieldMixin(object):
         # in some circumstances the field is loaded without constants
         if self.constants is None:
             return value
-        return self.constants.full_by_value.get(value)
+        return self.constants.by_value.get(value)
 
     def get_db_prep_value(self, value, connection, prepared=False):
         value = super(ConstantChoiceFieldMixin, self).get_db_prep_value(
@@ -67,7 +67,7 @@ class ConstantChoiceCharField(
             return value
         if isinstance(value, Constant):
             return value
-        return self.constants.full_by_value.get(u"{}".format(value))
+        return self.constants.by_value.get(u"{}".format(value))
 
 
 __all__ = [ConstantChoiceField, ConstantChoiceCharField]

@@ -26,7 +26,7 @@ This app provides convenient constants fields to improve readability
 and consistency of code and templates.
 """
 
-tests_require = ["pytest", "pytest-django"]
+tests_require = ["pytest", "pytest-django", "djangorestframework>=3.4.7"]
 
 setup(
     name=NAME,

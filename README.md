@@ -115,16 +115,16 @@ easy and concise.
 
 ```python
 apple = Apple.objects.get(name='Granny Smith')
-apple.purpose.cooking == True
+apple.purpose.cooking
 True
-apple.colour.red == True
+apple.colour.red
 True
-apple.colour.green == True
+apple.colour.green
 False
 
 # we don't care about the specific purpose, just whether it is as food
 # or not, so use the ConstantGroup!
-apple.purpose.culinary == True
+apple.purpose.culinary
 True
 
 ```
@@ -160,8 +160,8 @@ from rest_framework import serializers
 
 class AppleSerializer(serializers.ModelSerializer):
 
-    purpose = DRFConstantChoiceField(Apple.purposes)
-    colour = DRFConstantChoiceField(Apple.colours)
+    purpose = ConstantChoiceField(Apple.purposes)
+    colour = ConstantChoiceField(Apple.colours)
 
     class Meta:
         model = Apple

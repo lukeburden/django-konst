@@ -1,18 +1,17 @@
-# Django Constants
+# Django Konst
 
-[![](https://img.shields.io/pypi/v/django-constants.svg)](https://pypi.python.org/pypi/django-constants/)
-[![](https://img.shields.io/badge/license-MIT-blue.svg)](https://pypi.python.org/pypi/django-constants/)
+[![](https://img.shields.io/pypi/v/django-konst.svg)](https://pypi.python.org/pypi/django-konst/)
+[![](https://img.shields.io/badge/license-MIT-blue.svg)](https://pypi.python.org/pypi/django-konst/)
 
-[![Codecov](https://img.shields.io/codecov/c/github/lukeburden/django-constants.svg)](https://codecov.io/gh/lukeburden/django-constants)
-[![CircleCI](https://circleci.com/gh/lukeburden/django-constants.svg?style=svg)](https://circleci.com/gh/lukeburden/django-constants)
-![](https://img.shields.io/github/contributors/lukeburden/django-constants.svg)
-![](https://img.shields.io/github/issues-pr/lukeburden/django-constants.svg)
-![](https://img.shields.io/github/issues-pr-closed/lukeburden/django-constants.svg)
+[![Codecov](https://img.shields.io/codecov/c/github/lukeburden/django-konst.svg)](https://codecov.io/gh/lukeburden/django-konst)
+[![CircleCI](https://circleci.com/gh/lukeburden/django-konst.svg?style=svg)](https://circleci.com/gh/lukeburden/django-konst)
+![](https://img.shields.io/github/contributors/lukeburden/django-konst.svg)
+![](https://img.shields.io/github/issues-pr/lukeburden/django-konst.svg)
 
 
-## django-constants
+## django-konst
 
-`django-constants` is a utility for Django that makes the definition, use and storage of both integer and string based constants easy and readable. It avoids passing of constants
+`django-konst` is a utility for Django that makes the definition, use and storage of both integer and string based constants easy and readable. It avoids passing of constants
 into template contexts and makes evaluation concise and readable.
 
 It also makes exposure of these constants via forms and DRF serializers simple.
@@ -24,7 +23,7 @@ Constants can be defined with friendly names, backed by either integers or text.
 #### Constants ####
 
 ```python
-from constants.constants import Constant
+from konst import Constant
 
 # states backed by integers
 states = Constants(
@@ -46,10 +45,10 @@ colours = Constants(
 #### Constant groups ####
 
 At times, it will be necessary to group constants and test membership within that group.
-To achieve this, `django-constants` provides a `ConstantGroup` class.
+To achieve this, `django-konst` provides a `ConstantGroup` class.
 
 ```python
-from constants.constants import Constant, ConstantGroup
+from konst import Constant, ConstantGroup
 
 # states backed by integers
 states = Constants(
@@ -75,8 +74,8 @@ wherever you have the model class, as well as any model instance.
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from constants.constants import Constant, ConstantGroup, Constants
-from constants.models.fields import (
+from konst import Constant, ConstantGroup, Constants
+from konst.models.fields import (
     ConstantChoiceCharField,
     ConstantChoiceField
 )
@@ -149,11 +148,11 @@ culinary_apples = Apple.objects.filter(
 
 #### With Django Rest Framework ####
 
-Using the `constants.extras.drf.fields.ConstantChoiceField` serializer field with the
+Using the `konst.extras.drf.fields.ConstantChoiceField` serializer field with the
 Django Rest Framework it is possible to both output and receive constant values.
 
 ```python
-from constants.extras.drf.fields import ConstantChoiceField
+from konst.extras.drf.fields import ConstantChoiceField
 
 from rest_framework import serializers
 
@@ -220,7 +219,7 @@ AppleSerializer(instance=instance).data
 
 ## Contribute
 
-`django-constants` supports a variety of Python and Django versions. It's best if you test each one of these before committing. Our [Circle CI Integration](https://circleci.com) will test these when you push but knowing before you commit prevents from having to do a lot of extra commits to get the build to pass.
+`django-konst` supports a variety of Python and Django versions. It's best if you test each one of these before committing. Our [Circle CI Integration](https://circleci.com) will test these when you push but knowing before you commit prevents from having to do a lot of extra commits to get the build to pass.
 
 ### Environment Setup
 

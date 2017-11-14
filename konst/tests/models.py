@@ -4,11 +4,8 @@ from __future__ import absolute_import
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from constants.constants import Constant, ConstantGroup, Constants
-from constants.models.fields import (
-    ConstantChoiceCharField,
-    ConstantChoiceField
-)
+from konst import Constant, ConstantGroup, Constants
+from konst.models.fields import ConstantChoiceCharField, ConstantChoiceField
 
 
 class Apple(models.Model):

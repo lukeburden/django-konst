@@ -3,7 +3,7 @@ from __future__ import absolute_import
 
 from django.db.models import CharField, PositiveSmallIntegerField
 
-from ..constants import Constant
+from .. import Constant
 
 
 class ConstantChoiceFieldMixin(object):

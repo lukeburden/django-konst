@@ -5,7 +5,7 @@ import json
 
 from django.core.serializers.json import DjangoJSONEncoder
 
-from constants.constants import Constant
+from konst import Constant
 
 
 class ExtendedJSONEncoder(DjangoJSONEncoder):

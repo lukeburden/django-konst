@@ -9,11 +9,10 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.utils.encoding import force_text
 
-from constants import json
-from constants.constants import Constant
-from constants.extras.drf.fields import \
+from konst import Constant, json
+from konst.extras.drf.fields import \
     ConstantChoiceField as DRFConstantChoiceField
-from constants.tests.models import Apple
+from konst.tests.models import Apple
 from rest_framework import serializers
 
 try:

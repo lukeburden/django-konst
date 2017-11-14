@@ -14,7 +14,7 @@ DATABASES = {
             "CONSTANTS_DATABASE_ENGINE", "django.db.backends.sqlite3"
         ),
         "HOST": os.environ.get("CONSTANTS_DATABASE_HOST", "127.0.0.1"),
-        "NAME": os.environ.get("CONSTANTS_DATABASE_NAME", "constants"),
+        "NAME": os.environ.get("CONSTANTS_DATABASE_NAME", "konst"),
         "USER": os.environ.get("CONSTANTS_DATABASE_USER", ""),
     }
 }
@@ -22,10 +22,10 @@ MIDDLEWARE = []  # from 2.0 onwards, only MIDDLEWARE is used
 
 if django.VERSION < (1, 10):
     MIDDLEWARE_CLASSES = MIDDLEWARE
-ROOT_URLCONF = "constants.tests.urls"
+ROOT_URLCONF = "konst.tests.urls"
 INSTALLED_APPS = [
-    "constants",
-    "constants.tests",
+    "konst",
+    "konst.tests",
     "rest_framework"
 ]
 SITE_ID = 1
@@ -33,7 +33,7 @@ SITE_ID = 1
 TEMPLATES = [{
     "BACKEND": "django.template.backends.django.DjangoTemplates",
     "DIRS": [
-        "constants/tests/templates"
+        "konst/tests/templates"
     ],
     "APP_DIRS": True,
     "OPTIONS": {
@@ -49,4 +49,4 @@ TEMPLATES = [{
         ],
     },
 }]
-SECRET_KEY = "constants-secret-key"
+SECRET_KEY = "konst-secret-key"

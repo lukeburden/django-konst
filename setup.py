@@ -2,25 +2,25 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-NAME = "django-constants"
+NAME = "django-konst"
 DESCRIPTION = "Convenient constants fields for Django"
 AUTHOR = "Luke Burden"
 AUTHOR_EMAIL = "lukeburden@gmail.com"
-URL = "https://github.com/lukeburden/django-constants"
+URL = "https://github.com/lukeburden/django-konst"
 LONG_DESCRIPTION = """
 ============
 Django Constants
 ============
-.. image:: https://img.shields.io/travis/lukeburden/django-constants.svg
-    :target: https://travis-ci.org/lukeburden/django-constants
-.. image:: https://img.shields.io/codecov/c/github/lukeburden/django-constants.svg
-    :target: https://codecov.io/gh/lukeburden/django-constants
-.. image:: https://img.shields.io/pypi/dm/django-constants.svg
-    :target:  https://pypi.python.org/pypi/django-constants/
-.. image:: https://img.shields.io/pypi/v/django-constants.svg
-    :target:  https://pypi.python.org/pypi/django-constants/
+.. image:: https://img.shields.io/travis/lukeburden/django-konst.svg
+    :target: https://travis-ci.org/lukeburden/django-konst
+.. image:: https://img.shields.io/codecov/c/github/lukeburden/django-konst.svg
+    :target: https://codecov.io/gh/lukeburden/django-konst
+.. image:: https://img.shields.io/pypi/dm/django-konst.svg
+    :target:  https://pypi.python.org/pypi/django-konst/
+.. image:: https://img.shields.io/pypi/v/django-konst.svg
+    :target:  https://pypi.python.org/pypi/django-konst/
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
-    :target:  https://pypi.python.org/pypi/django-constants/
+    :target:  https://pypi.python.org/pypi/django-konst/
 
 This app provides convenient constants fields to improve readability
 and consistency of code and templates.

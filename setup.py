@@ -2,41 +2,27 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-NAME = "django-konst"
-DESCRIPTION = "Convenient constants fields for Django"
-AUTHOR = "Luke Burden"
-AUTHOR_EMAIL = "lukeburden@gmail.com"
-URL = "https://github.com/lukeburden/django-konst"
-LONG_DESCRIPTION = """
-============
-Django Constants
-============
-.. image:: https://img.shields.io/travis/lukeburden/django-konst.svg
-    :target: https://travis-ci.org/lukeburden/django-konst
-.. image:: https://img.shields.io/codecov/c/github/lukeburden/django-konst.svg
-    :target: https://codecov.io/gh/lukeburden/django-konst
-.. image:: https://img.shields.io/pypi/dm/django-konst.svg
-    :target:  https://pypi.python.org/pypi/django-konst/
-.. image:: https://img.shields.io/pypi/v/django-konst.svg
-    :target:  https://pypi.python.org/pypi/django-konst/
-.. image:: https://img.shields.io/badge/license-MIT-blue.svg
-    :target:  https://pypi.python.org/pypi/django-konst/
+name = "django-konst"
+description = "Convenient constants fields for Django"
+author = "Luke Burden"
+author_email = "lukeburden@gmail.com"
+url = "https://github.com/lukeburden/django-konst"
 
-This app provides convenient constants fields to improve readability
-and consistency of code and templates.
-"""
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 tests_require = ["pytest", "pytest-django", "djangorestframework>=3.4.7"]
 
 setup(
-    name=NAME,
-    author=AUTHOR,
-    author_email=AUTHOR_EMAIL,
-    description=DESCRIPTION,
-    long_description=LONG_DESCRIPTION,
+    name=name,
+    author=author,
+    author_email=author_email,
+    description=description,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     version="1.0.1",
     license="MIT",
-    url=URL,
+    url=url,
     packages=find_packages(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",

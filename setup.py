@@ -34,7 +34,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
-    version="1.0.0",
+    version="1.0.1",
     license="MIT",
     url=URL,
     packages=find_packages(),

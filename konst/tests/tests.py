@@ -9,7 +9,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.utils.encoding import force_text
 
-from konst import Constant, json
+from konst import Constant, ConstantGroup, Constants, json
 from konst.extras.drf.fields import \
     ConstantChoiceField as DRFConstantChoiceField
 from konst.tests.models import Apple
@@ -57,6 +57,46 @@ class ConstantTestCase(TestCase):
                     Apple.purposes.eating,
                     Apple.purposes.cooking,
                     Apple.purposes.juicing
+                ]
+            )
+        )
+
+    def test_two_groups_defined(self):
+        pets = Constants(
+            Constant(husky="husky"),
+            Constant(poodle="poodle"),
+            Constant(burmese="burmese"),
+            Constant(ginger="ginger"),
+            ConstantGroup(
+                "cat", ("burmese", "ginger",),
+            ),
+            ConstantGroup(
+                "dog", ("husky", "poodle",),
+            ),
+        )
+        self.assertTrue(pets.husky.dog)
+        self.assertFalse(pets.husky.cat)
+        self.assertTrue(pets.poodle.dog)
+        self.assertFalse(pets.poodle.cat)
+        self.assertTrue(pets.burmese.cat)
+        self.assertFalse(pets.burmese.dog)
+        self.assertTrue(pets.ginger.cat)
+        self.assertFalse(pets.ginger.dog)
+        self.assertEqual(
+            pets.dog,
+            set(
+                [
+                    pets.husky,
+                    pets.poodle,
+                ]
+            )
+        )
+        self.assertEqual(
+            pets.cat,
+            set(
+                [
+                    pets.burmese,
+                    pets.ginger,
                 ]
             )
         )

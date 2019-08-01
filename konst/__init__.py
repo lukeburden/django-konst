@@ -121,4 +121,4 @@ class Constants(object):
                         name
                     )
                 )
-            setattr(self, a.name, set([self.by_id[i] for i in group.constant_ids]))
+            setattr(self, name, set([self.by_id[i] for i in group.constant_ids]))

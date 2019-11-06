@@ -30,7 +30,7 @@ class ConstantChoiceFieldMixin(object):
             return value.v
         return value
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, expression, connection, *args):
         # print "from_db_value: {}: {}".format(type(value), value)
         if value is None:
             return value

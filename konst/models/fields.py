@@ -7,14 +7,11 @@ from .. import Constant
 
 
 class ConstantChoiceFieldMixin(object):
-
     def __init__(self, *args, **kwargs):
         self.constants = kwargs.pop("constants", None)
         if self.constants:
             kwargs["choices"] = self.constants.choices
-        super(ConstantChoiceFieldMixin, self).__init__(
-            *args, **kwargs
-        )
+        super(ConstantChoiceFieldMixin, self).__init__(*args, **kwargs)
 
     def to_python(self, value):
         # print "to_python: {}: {}".format(type(value), value)
@@ -52,15 +49,11 @@ class ConstantChoiceFieldMixin(object):
             return value
 
 
-class ConstantChoiceField(
-    ConstantChoiceFieldMixin, PositiveSmallIntegerField
-):
+class ConstantChoiceField(ConstantChoiceFieldMixin, PositiveSmallIntegerField):
     pass
 
 
-class ConstantChoiceCharField(
-    ConstantChoiceFieldMixin, CharField
-):
+class ConstantChoiceCharField(ConstantChoiceFieldMixin, CharField):
     def to_python(self, value):
         # print "to_python: {}: {}".format(type(value), value)
         if value is None:

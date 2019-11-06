@@ -23,30 +23,26 @@ MIDDLEWARE = []  # from 2.0 onwards, only MIDDLEWARE is used
 if django.VERSION < (1, 10):
     MIDDLEWARE_CLASSES = MIDDLEWARE
 ROOT_URLCONF = "konst.tests.urls"
-INSTALLED_APPS = [
-    "konst",
-    "konst.tests",
-    "rest_framework"
-]
+INSTALLED_APPS = ["konst", "konst.tests", "rest_framework"]
 SITE_ID = 1
 
-TEMPLATES = [{
-    "BACKEND": "django.template.backends.django.DjangoTemplates",
-    "DIRS": [
-        "konst/tests/templates"
-    ],
-    "APP_DIRS": True,
-    "OPTIONS": {
-        "debug": True,
-        "context_processors": [
-            "django.contrib.auth.context_processors.auth",
-            "django.template.context_processors.debug",
-            "django.template.context_processors.i18n",
-            "django.template.context_processors.media",
-            "django.template.context_processors.static",
-            "django.template.context_processors.tz",
-            "django.template.context_processors.request",
-        ],
-    },
-}]
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": ["konst/tests/templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "debug": True,
+            "context_processors": [
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.template.context_processors.request",
+            ],
+        },
+    }
+]
 SECRET_KEY = "konst-secret-key"

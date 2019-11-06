@@ -11,10 +11,9 @@ from django.utils.encoding import python_2_unicode_compatible
 @deconstructible
 @python_2_unicode_compatible
 class Constant(object):
-
     def __init__(self, label=None, **kwargs):
         self.constants = None
-        assert(len(kwargs) == 1)
+        assert len(kwargs) == 1
         for k, v in kwargs.items():
             self.id = k
             self.v = v
@@ -24,9 +23,7 @@ class Constant(object):
         return u"{}".format(self.v)
 
     def __repr__(self):
-        return u"{} ({})".format(
-            self.id, self.v
-        )
+        return u"{} ({})".format(self.id, self.v)
 
     def __resolve_other(self, other):
         if isinstance(other, Constant):
@@ -86,14 +83,12 @@ class Constant(object):
 
 
 class ConstantGroup(object):
-
     def __init__(self, name, constant_ids):
         self.name = name
         self.constant_ids = set(constant_ids)
 
 
 class Constants(object):
-
     def __init__(self, *args):
         self.constants = []
         self.groups = {}

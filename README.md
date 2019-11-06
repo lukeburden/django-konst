@@ -2,10 +2,9 @@
 
 [![](https://img.shields.io/pypi/v/django-konst.svg)](https://pypi.python.org/pypi/django-konst/)
 [![](https://img.shields.io/badge/license-MIT-blue.svg)](https://pypi.python.org/pypi/django-konst/)
-[![Codecov](https://codecov.io/gh/lukeburden/django-konst/branch/master/graph/badge.svg)](https://codecov.io/gh/lukeburden/django-konst)
 [![CircleCI](https://circleci.com/gh/lukeburden/django-konst.svg?style=svg)](https://circleci.com/gh/lukeburden/django-konst)
-![](https://img.shields.io/github/contributors/lukeburden/django-konst.svg)
-![](https://img.shields.io/github/issues-pr/lukeburden/django-konst.svg)
+[![Codecov](https://codecov.io/gh/lukeburden/django-konst/branch/master/graph/badge.svg)](https://codecov.io/gh/lukeburden/django-konst)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 
 ## django-konst

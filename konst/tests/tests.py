@@ -10,8 +10,7 @@ from django.test import TestCase
 from django.utils.encoding import force_text
 
 from konst import Constant, ConstantGroup, Constants, json
-from konst.extras.drf.fields import \
-    ConstantChoiceField as DRFConstantChoiceField
+from konst.extras.drf.fields import ConstantChoiceField as DRFConstantChoiceField
 from konst.tests.models import Apple
 from rest_framework import serializers
 
@@ -22,14 +21,9 @@ except ImportError:
 
 
 class ConstantTestCase(TestCase):
-
     def test_repr(self):
-        self.assertEqual(
-            repr(Apple.purposes.cooking), u"cooking (0)"
-        )
-        self.assertEqual(
-            repr(Apple.colours.red), u"red (FF0000)"
-        )
+        self.assertEqual(repr(Apple.purposes.cooking), u"cooking (0)")
+        self.assertEqual(repr(Apple.colours.red), u"red (FF0000)")
 
     def test_str(self):
         self.assertEqual(str(Apple.purposes.cooking), u"0")
@@ -53,12 +47,8 @@ class ConstantTestCase(TestCase):
         self.assertEqual(
             Apple.purposes.culinary,
             set(
-                [
-                    Apple.purposes.eating,
-                    Apple.purposes.cooking,
-                    Apple.purposes.juicing
-                ]
-            )
+                [Apple.purposes.eating, Apple.purposes.cooking, Apple.purposes.juicing]
+            ),
         )
 
     def test_two_groups_defined(self):
@@ -67,12 +57,8 @@ class ConstantTestCase(TestCase):
             Constant(poodle="poodle"),
             Constant(burmese="burmese"),
             Constant(ginger="ginger"),
-            ConstantGroup(
-                "cat", ("burmese", "ginger",),
-            ),
-            ConstantGroup(
-                "dog", ("husky", "poodle",),
-            ),
+            ConstantGroup("cat", ("burmese", "ginger")),
+            ConstantGroup("dog", ("husky", "poodle")),
         )
         self.assertTrue(pets.husky.dog)
         self.assertFalse(pets.husky.cat)
@@ -82,24 +68,8 @@ class ConstantTestCase(TestCase):
         self.assertFalse(pets.burmese.dog)
         self.assertTrue(pets.ginger.cat)
         self.assertFalse(pets.ginger.dog)
-        self.assertEqual(
-            pets.dog,
-            set(
-                [
-                    pets.husky,
-                    pets.poodle,
-                ]
-            )
-        )
-        self.assertEqual(
-            pets.cat,
-            set(
-                [
-                    pets.burmese,
-                    pets.ginger,
-                ]
-            )
-        )
+        self.assertEqual(pets.dog, set([pets.husky, pets.poodle]))
+        self.assertEqual(pets.cat, set([pets.burmese, pets.ginger]))
 
 
 class ConstantChoiceFieldTestCase(TestCase):
@@ -111,36 +81,26 @@ class ConstantChoiceFieldTestCase(TestCase):
 
     def test_create_and_save(self):
         gala = Apple.objects.create(
-            name=u"Gala",
-            colour=Apple.colours.red,
-            purpose=Apple.purposes.eating
+            name=u"Gala", colour=Apple.colours.red, purpose=Apple.purposes.eating
         )
         self.assertTrue(isinstance(gala.colour, Constant))
         self.assertTrue(isinstance(gala.purpose, Constant))
-        self.assertEqual(
-            gala.colour, Apple.colours.red
-        )
+        self.assertEqual(gala.colour, Apple.colours.red)
         self.assertTrue(gala.colour.red)
 
     def test_from_db(self):
         instance = Apple.objects.all().first()
-        self.assertTrue(
-            isinstance(instance.colour, Constant)
-        )
-        self.assertTrue(
-            isinstance(instance.purpose, Constant)
-        )
+        self.assertTrue(isinstance(instance.colour, Constant))
+        self.assertTrue(isinstance(instance.purpose, Constant))
         self.assertTrue(instance.colour.green)
         self.assertTrue(instance.purpose.cooking)
 
     def test_widget_force_text(self):
         self.assertEqual(
-            force_text(self.instance.colour),
-            u"{}".format(self.instance.colour.v)
+            force_text(self.instance.colour), u"{}".format(self.instance.colour.v)
         )
         self.assertEqual(
-            force_text(self.instance.purpose),
-            u"{}".format(self.instance.purpose.v)
+            force_text(self.instance.purpose), u"{}".format(self.instance.purpose.v)
         )
 
     def test_getattr_equality_check(self):
@@ -171,14 +131,14 @@ class ConstantChoiceFieldTestCase(TestCase):
         dumped_data = json.loads(sys.stdout.getvalue())
         sys.stdout = sysout
         self.assertEqual(
-            dumped_data[0]["fields"]["colour"],
-            u"{}".format(Apple.colours.green)
+            dumped_data[0]["fields"]["colour"], u"{}".format(Apple.colours.green)
         )
 
     def test_copy(self):
         # https://nedbatchelder.com/blog/201010/surprising_getattr_recursion.html
         def f(*args, **kw):
             pass
+
         sys.settrace(f)
         self.assertEqual(sys.gettrace(), f)
         colour = Apple.colours.red
@@ -195,22 +155,16 @@ class ConstantChoiceFieldTestCase(TestCase):
         try:
             colour = pickle.loads(c)
         except RuntimeError as r:
-            self.fail(
-                "Loading pickled constant raised RuntimeError: {}".format(r)
-            )
+            self.fail("Loading pickled constant raised RuntimeError: {}".format(r))
         else:
             self.assertTrue(colour.red)
             self.assertFalse(colour.green)
 
     def test_group_in_filter(self):
         self.assertEqual(
-            Apple.objects.filter(
-                purpose__in=Apple.purposes.culinary
-            ).count(), 1
+            Apple.objects.filter(purpose__in=Apple.purposes.culinary).count(), 1
         )
-        instance = Apple.objects.filter(
-            purpose__in=Apple.purposes.culinary
-        ).first()
+        instance = Apple.objects.filter(purpose__in=Apple.purposes.culinary).first()
         self.assertEqual(self.instance, instance)
         self.assertTrue(instance.purpose.culinary)
 
@@ -223,10 +177,7 @@ class ConstantJSONSerializerTestCase(TestCase):
             # "colour": Apple.colours.red,
             "purpose": Apple.purposes.cooking
         }
-        self.assertEqual(
-            json.loads(json.dumps(data)),
-            data
-        )
+        self.assertEqual(json.loads(json.dumps(data)), data)
 
 
 class AppleSerializer(serializers.ModelSerializer):
@@ -236,9 +187,7 @@ class AppleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Apple
-        fields = (
-            "name", "purpose", "colour"
-        )
+        fields = ("name", "purpose", "colour")
 
 
 class DRFConstantChoiceFieldTestCase(TestCase):
@@ -251,72 +200,54 @@ class DRFConstantChoiceFieldTestCase(TestCase):
 
     def test_to_representation_int_backed(self):
         self.assertEqual(
-            self.purposes.to_representation(Apple.purposes.cooking),
-            u"cooking"
+            self.purposes.to_representation(Apple.purposes.cooking), u"cooking"
         )
 
     def test_to_representation_string_backed(self):
         self.assertEqual(
-            self.colours.to_representation(Apple.colours.yellow),
-            u"yellow"
+            self.colours.to_representation(Apple.colours.yellow), u"yellow"
         )
 
     def test_to_internal_value_int_backed(self):
         self.assertEqual(
-            self.purposes.to_internal_value("eating"),
-            Apple.purposes.eating
+            self.purposes.to_internal_value("eating"), Apple.purposes.eating
         )
 
     def test_to_internal_value_string_backed(self):
-        self.assertEqual(
-            self.colours.to_internal_value("red"),
-            Apple.colours.red
-        )
+        self.assertEqual(self.colours.to_internal_value("red"), Apple.colours.red)
 
     def test_to_internal_value_not_a_valid_option_int_backed(self):
         with self.assertRaises(serializers.ValidationError) as e:
             self.colours.to_internal_value("purple")
-        self.assertEqual(e.exception.detail, [u"\"purple\" is not a valid choice."])
+        self.assertEqual(e.exception.detail, [u'"purple" is not a valid choice.'])
 
     def test_to_internal_value_not_a_valid_option_string_backed(self):
         with self.assertRaises(serializers.ValidationError) as e:
             self.purposes.to_internal_value("mincing")
-        self.assertEqual(e.exception.detail, [u"\"mincing\" is not a valid choice."])
+        self.assertEqual(e.exception.detail, [u'"mincing" is not a valid choice.'])
 
     def test_in_serializer_output(self):
         instance = Apple.objects.all().first()
         serializer = AppleSerializer(instance=instance)
         self.assertEqual(
             serializer.data,
-            {
-                "name": "Granny Smith",
-                "colour": "green",
-                "purpose": "cooking"
-            }
+            {"name": "Granny Smith", "colour": "green", "purpose": "cooking"},
         )
 
     def test_in_serializer_input_bad(self):
-        data = {
-            "name": "Fuji",
-            "colour": "blue",
-            "purpose": "dicing"
-        }
+        data = {"name": "Fuji", "colour": "blue", "purpose": "dicing"}
         serializer = AppleSerializer(data=data)
         self.assertFalse(serializer.is_valid())
         self.assertEqual(
             serializer.errors,
             {
-                "colour": [u"\"blue\" is not a valid choice."],
-                "purpose": [u"\"dicing\" is not a valid choice."]
-            }
+                "colour": [u'"blue" is not a valid choice.'],
+                "purpose": [u'"dicing" is not a valid choice.'],
+            },
         )
 
     def test_in_serializer_input_good(self):
-        data = {
-            "name": "Fuji",
-            "colour": "red",
-            "purpose": "eating"
-        }
+        data = {"name": "Fuji", "colour": "red", "purpose": "eating"}
         serializer = AppleSerializer(data=data)
         self.assertTrue(serializer.is_valid())
         instance = serializer.save()

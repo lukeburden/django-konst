@@ -35,9 +35,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Framework :: Django",
     ],
-    install_requires=[
-        "django>=1.8"
-    ],
+    install_requires=["django>=1.8"],
     test_suite="runtests.runtests",
     tests_require=tests_require,
     zip_safe=False,

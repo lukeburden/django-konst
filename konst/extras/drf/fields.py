@@ -14,9 +14,7 @@ class ConstantChoiceField(Field):
     Allows exposure and receipt of string values from Constants.
     """
 
-    default_error_messages = {
-        "invalid_choice": _("\"{input}\" is not a valid choice.")
-    }
+    default_error_messages = {"invalid_choice": _('"{input}" is not a valid choice.')}
 
     def __init__(self, constants, **kwargs):
         self.constants = constants

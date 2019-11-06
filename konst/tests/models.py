@@ -15,9 +15,7 @@ class Apple(models.Model):
         Constant(eating=1, label=_("Eat me!")),
         Constant(juicing=2, label=_("Juice me!")),
         Constant(ornamental=3, label=_("Just look how pretty I am!")),
-        ConstantGroup(
-            "culinary", ("cooking", "eating", "juicing")
-        )
+        ConstantGroup("culinary", ("cooking", "eating", "juicing")),
     )
     colours = Constants(
         Constant(red="FF0000", label=_("red")),

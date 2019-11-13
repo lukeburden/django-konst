@@ -21,7 +21,7 @@ Constants can be defined with friendly names, backed by either integers or text.
 #### Constants ####
 
 ```python
-from konst import Constant
+from konst import Constant, Constants
 
 # states backed by integers
 states = Constants(

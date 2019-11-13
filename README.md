@@ -115,9 +115,9 @@ apple = Apple.objects.get(name='Granny Smith')
 apple.purpose.cooking
 True
 apple.colour.red
-True
-apple.colour.green
 False
+apple.colour.green
+True
 
 # we don't care about the specific purpose, just whether it is as food
 # or not, so use the ConstantGroup!

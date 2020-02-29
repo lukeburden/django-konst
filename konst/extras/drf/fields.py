@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
-from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework.fields import Field
@@ -26,7 +25,7 @@ class ConstantChoiceField(Field):
         if data == "" and self.allow_blank:
             return ""
         try:
-            return self.constants.by_id[six.text_type(data)]
+            return self.constants.by_id[str(data)]
         except KeyError:
             self.fail("invalid_choice", input=data)
 

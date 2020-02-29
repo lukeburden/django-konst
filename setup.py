@@ -11,7 +11,7 @@ url = "https://github.com/lukeburden/django-konst"
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-tests_require = ["pytest", "pytest-django", "djangorestframework>=3.4.7"]
+tests_require = ["pytest", "pytest-django", "djangorestframework>=3.10"]
 
 setup(
     name=name,
@@ -20,7 +20,7 @@ setup(
     description=description,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="1.0.2",
+    version="2.0.0",
     license="MIT",
     url=url,
     packages=find_packages(),
@@ -31,11 +31,14 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Framework :: Django",
     ],
-    install_requires=["django>=1.8"],
+    install_requires=["django>=2.2"],
     test_suite="runtests.runtests",
     tests_require=tests_require,
     zip_safe=False,

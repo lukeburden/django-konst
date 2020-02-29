@@ -2,14 +2,12 @@
 from __future__ import absolute_import
 
 from django.utils.deconstruct import deconstructible
-from django.utils.encoding import python_2_unicode_compatible
 
 # https://code.djangoproject.com/wiki/CookBookChoicesContantsClass
 # modified to work with translation plus fields
 
 
 @deconstructible
-@python_2_unicode_compatible
 class Constant(object):
     def __init__(self, label=None, **kwargs):
         self.constants = None

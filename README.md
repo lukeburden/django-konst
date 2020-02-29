@@ -246,9 +246,9 @@ def apple_updated_receiver(sender, instance, created, *args, **kwargs):
 
 ```
 
-This code will sadly raise `AttributeError: 'int' object has no attribute 'active'`, as `instance.purpose` is now an integer and so does not have an attribute "purpose".
+This code will sadly raise `AttributeError: 'int' object has no attribute 'purpose'`, as `instance.purpose` is just the integer we set it to before saving.
 
-The good news is that you can avoid this by *always* setting `konst` fields on instances to `Constant` instances such that downstream code can happily handle the instance as if it'd come straight out of the database:
+The good news is that you can avoid this by *always* setting `django-konst` fields on instances to `Constant` instances such that downstream code can happily handle the instance as if it'd come straight out of the database:
 
 ```python
 apple = Apple.objects.get(name='Granny Smith')
@@ -256,7 +256,7 @@ apple.purpose = Apple.purposes.eating
 apple.save()
 ```
 
-The aim of `konst` is to avoid using hard-coded constants and make readable code when interacting with them, so it's really for the best if you're careful to only use `Constants` when setting or creating instances, otherwise you're forgoing one of the libraries key benefits.
+The aim of `django-konst` is to avoid using hard-coded constants and make readable code when interacting with them, so it's really for the best if you're careful to only use `Constants` when setting or creating instances, otherwise you're forgoing one of `django-konst`s key benefits.
 
 
 ## Contribute

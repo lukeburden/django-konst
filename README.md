@@ -269,31 +269,28 @@ In order to easily test on all these Pythons and run the exact same thing that C
 
 If you are on Mac OS X, it's recommended you use [brew](http://brew.sh/). After installing `brew` run:
 
-```
-$ brew install pyenv pyenv-virtualenv pyenv-virtualenvwrapper
+```bash
+brew install pyenv pyenv-virtualenv pyenv-virtualenvwrapper
 ```
 
-Then:
+Next, install the various python versions we want to test against and create a virtualenv specifically for `django-konst`:
 
-```
-pyenv install -s 2.7.14
-pyenv install -s 3.4.7
-pyenv install -s 3.5.4
-pyenv install -s 3.6.3
-pyenv virtualenv 2.7.14
-pyenv virtualenv 3.4.7
-pyenv virtualenv 3.5.4
-pyenv virtualenv 3.6.3
-pyenv global 2.7.14 3.4.7 3.5.4 3.6.3
+```bash
+pyenv install 3.6.10
+pyenv install 3.7.6
+pyenv install 3.8.1
+pyenv virtualenv 3.8.1 konst
+pyenv activate konst
 pip install detox
+pyenv shell konst 3.6.10 3.7.6
 ```
 
-To run the test suite:
+Now ensure the `konst` virtualenv is activated, make the other python versions also on our path, and run the tests!
 
-Make sure you are NOT inside a `virtualenv` and then:
 
-```
-$ detox
+```bash
+pyenv shell konst 3.6.10 3.7.6
+detox
 ```
 
 This will execute the test environments in parallel as defined in the `tox.ini`.

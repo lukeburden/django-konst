@@ -219,16 +219,15 @@ AppleSerializer(instance=instance).data
 
 ### Setting a field on a model to the value of a constant rather than the Constant object
 
-When the Django ORM instantiates a model instance, it will ensure that any `ConstantChoiceField` or `ConstantChoiceCharField` fields have values set to `Constant` instances.
+When the Django ORM instantiates a model instance from the database, it will ensure that any `ConstantChoiceField` or `ConstantChoiceCharField` fields have values set to `Constant` instances.
 
-However, if you create or modify a model instance and set such a field to the raw value, you're setting yourself up for your code to break.
+If you create or modify a model instance using a raw, hard-coded constant value, you're likely to hit errors along the lines of "AttributeError: 'int' object has no attribute 'attribute-name'".
 
-
-Take the example below where the caller naively sets the colour of a model instance to the underlying value for the `Constant`:
+Take the example below where the caller sets the colour of a model instance to the underlying value for the `Constant`:
 
 ```python
 apple = Apple.objects.get(name='Granny Smith')
-apple.purpose = 1  # constant for `eating`
+apple.purpose = 1  # constant for `eating` .. I know, who on earth would eat a granny smith straight up?!
 apple.save()
 ```
 
@@ -247,9 +246,9 @@ def apple_updated_receiver(sender, instance, created, *args, **kwargs):
 
 ```
 
-This code will sadly break, as `instance.purpose` is now an integer and so does not have an attribute "purpose".
+This code will sadly raise `AttributeError: 'int' object has no attribute 'active'`, as `instance.purpose` is now an integer and so does not have an attribute "purpose".
 
-The good news is that you can avoid this by *always* setting `konst` fields on instances to `Constant` instances:
+The good news is that you can avoid this by *always* setting `konst` fields on instances to `Constant` instances such that downstream code can happily handle the instance as if it'd come straight out of the database:
 
 ```python
 apple = Apple.objects.get(name='Granny Smith')
@@ -257,9 +256,7 @@ apple.purpose = Apple.purposes.eating
 apple.save()
 ```
 
-Then downstream code can happily handle the instance as if it'd come straight out of the database.
-
-The aim of this library is to avoid using hard-coded constants, so it's really for the best if you're careful to only use the `Constants`, otherwise you're forgoing one of the key benefits of `konst`.
+The aim of `konst` is to avoid using hard-coded constants and make readable code when interacting with them, so it's really for the best if you're careful to only use `Constants` when setting or creating instances, otherwise you're forgoing one of the libraries key benefits.
 
 
 ## Contribute

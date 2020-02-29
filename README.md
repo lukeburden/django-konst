@@ -256,7 +256,7 @@ apple.purpose = Apple.purposes.eating
 apple.save()
 ```
 
-The aim of `django-konst` is to avoid using hard-coded constants and make readable code when interacting with them, so it's really for the best if you're careful to only use `Constants` when setting or creating instances, otherwise you're forgoing one of `django-konst`s key benefits.
+Regardless of whether you're using `django-konst` for your constants, it's good practice to not hard-code constant values in order to avoid subtle mistakes and to ease changes in the future.
 
 
 ## Contribute

@@ -215,6 +215,53 @@ AppleSerializer(instance=instance).data
 
 ```
 
+## Gotchas
+
+### Setting a field on a model to the value of a constant rather than the Constant object
+
+When the Django ORM instantiates a model instance, it will ensure that any `ConstantChoiceField` or `ConstantChoiceCharField` fields have values set to `Constant` instances.
+
+However, if you create or modify a model instance and set such a field to the raw value, you're setting yourself up for your code to break.
+
+
+Take the example below where the caller naively sets the colour of a model instance to the underlying value for the `Constant`:
+
+```python
+apple = Apple.objects.get(name='Granny Smith')
+apple.purpose = 1  # constant for `eating`
+apple.save()
+```
+
+Django will happily persist the data correctly, but let's say you have a `post_save` signal (or any other code, really) that does something further with the instance:
+
+```python
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from .models import Apple
+
+@receiver(post_save, sender=Apple)
+def apple_updated_receiver(sender, instance, created, *args, **kwargs):
+    if not created and instance.purpose.eating:
+        print(f"Oh my, {instance.name} is now for eating!")
+
+```
+
+This code will sadly break, as `instance.purpose` is now an integer and so does not have an attribute "purpose".
+
+The good news is that you can avoid this by *always* setting `konst` fields on instances to `Constant` instances:
+
+```python
+apple = Apple.objects.get(name='Granny Smith')
+apple.purpose = Apple.purposes.eating
+apple.save()
+```
+
+Then downstream code can happily handle the instance as if it'd come straight out of the database.
+
+The aim of this library is to avoid using hard-coded constants, so it's really for the best if you're careful to only use the `Constants`, otherwise you're forgoing one of the key benefits of `konst`.
+
+
 ## Contribute
 
 `django-konst` supports a variety of Python and Django versions. It's best if you test each one of these before committing. Our [Circle CI Integration](https://circleci.com) will test these when you push but knowing before you commit prevents from having to do a lot of extra commits to get the build to pass.
@@ -244,7 +291,7 @@ pyenv global 2.7.14 3.4.7 3.5.4 3.6.3
 pip install detox
 ```
 
-To run test suite:
+To run the test suite:
 
 Make sure you are NOT inside a `virtualenv` and then:
 
@@ -252,4 +299,4 @@ Make sure you are NOT inside a `virtualenv` and then:
 $ detox
 ```
 
-This will execute the testing matrix in parallel as defined in the `tox.ini`.
+This will execute the test environments in parallel as defined in the `tox.ini`.

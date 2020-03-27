@@ -144,6 +144,17 @@ culinary_apples = Apple.objects.filter(
 
 ```
 
+#### Django Form ####
+
+```python
+from django import forms
+
+from konst.forms.fields import ConstantChoiceField
+
+class SomeForm(forms.Form):
+    purpose = ConstantChoiceField(constants=Apple.purposes) 
+```
+
 #### With Django Rest Framework ####
 
 Using the `konst.extras.drf.fields.ConstantChoiceField` serializer field with the

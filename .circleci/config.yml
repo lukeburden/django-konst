@@ -29,7 +29,7 @@ common: &common
         key: v2-deps-{{ .Environment.CIRCLE_JOB }}-{{ checksum "setup.py" }}-{{ checksum "tox.ini" }}
 
 jobs:
-  lint:
+  checkqa:
     <<: *common
     docker:
       - image: circleci/python:3.8
@@ -48,6 +48,12 @@ jobs:
       - image: circleci/python:3.6
         environment:
           TOXENV=py36-dj30
+  py36dj31:
+    <<: *common
+    docker:
+      - image: circleci/python:3.6
+        environment:
+          TOXENV=py36-dj31
   py36djmaster:
     <<: *common
     docker:
@@ -66,6 +72,12 @@ jobs:
       - image: circleci/python:3.7
         environment:
           TOXENV=py37-dj30
+  py37dj31:
+    <<: *common
+    docker:
+      - image: circleci/python:3.7
+        environment:
+          TOXENV=py37-dj31
   py37djmaster:
     <<: *common
     docker:
@@ -84,24 +96,62 @@ jobs:
       - image: circleci/python:3.8
         environment:
           TOXENV=py38-dj30
+  py38dj31:
+    <<: *common
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          TOXENV=py38-dj31
   py38djmaster:
     <<: *common
     docker:
       - image: circleci/python:3.8
         environment:
           TOXENV=py38-djmaster
+  py39dj22:
+    <<: *common
+    docker:
+      - image: circleci/python:3.9
+        environment:
+          TOXENV=py39-dj22
+  py39dj30:
+    <<: *common
+    docker:
+      - image: circleci/python:3.9
+        environment:
+          TOXENV=py39-dj30
+  py39dj31:
+    <<: *common
+    docker:
+      - image: circleci/python:3.9
+        environment:
+          TOXENV=py39-dj31
+  py39djmaster:
+    <<: *common
+    docker:
+      - image: circleci/python:3.9
+        environment:
+          TOXENV=py39-djmaster
 
 workflows:
   version: 2
   test:
     jobs:
-      - lint
+      - checkqa
       - py36dj22
       - py36dj30
+      - py36dj31
       - py36djmaster
       - py37dj22
       - py37dj30
+      - py37dj31
       - py37djmaster
       - py38dj22
       - py38dj30
+      - py38dj31
       - py38djmaster
+      - py39dj22
+      - py39dj30
+      - py39dj31
+      - py39djmaster
+

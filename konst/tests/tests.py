@@ -15,6 +15,7 @@ from konst import Constant, ConstantGroup, Constants, json
 from konst.extras.drf.fields import ConstantChoiceField as DRFConstantChoiceField
 from konst.tests.models import Apple
 
+
 try:
     from StringIO import StringIO
 except ImportError:

@@ -5,6 +5,7 @@ import os
 
 import django
 
+
 DEBUG = True
 USE_TZ = True
 TIME_ZONE = "UTC"

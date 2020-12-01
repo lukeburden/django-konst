@@ -1,5 +1,6 @@
 from setuptools import find_packages, setup
 
+
 name = "django-konst"
 description = "Convenient constants fields for Django"
 author = "Luke Burden"

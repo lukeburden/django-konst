@@ -3,6 +3,7 @@ from __future__ import absolute_import
 
 from django.utils.deconstruct import deconstructible
 
+
 # https://code.djangoproject.com/wiki/CookBookChoicesContantsClass
 # modified to work with translation plus fields
 

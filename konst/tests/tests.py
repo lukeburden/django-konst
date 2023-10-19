@@ -7,7 +7,7 @@ import sys
 
 from django.core.management import call_command
 from django.test import TestCase
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from rest_framework import serializers
 
@@ -97,12 +97,12 @@ class ConstantChoiceFieldTestCase(TestCase):
         self.assertTrue(instance.colour.green)
         self.assertTrue(instance.purpose.cooking)
 
-    def test_widget_force_text(self):
+    def test_widget_force_str(self):
         self.assertEqual(
-            force_text(self.instance.colour), u"{}".format(self.instance.colour.v)
+            force_str(self.instance.colour), u"{}".format(self.instance.colour.v)
         )
         self.assertEqual(
-            force_text(self.instance.purpose), u"{}".format(self.instance.purpose.v)
+            force_str(self.instance.purpose), u"{}".format(self.instance.purpose.v)
         )
 
     def test_getattr_equality_check(self):

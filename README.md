@@ -70,7 +70,7 @@ wherever you have the model class, as well as any model instance.
 
 ```python
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from konst import Constant, ConstantGroup, Constants
 from konst.models.fields import (

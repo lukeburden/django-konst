@@ -9,7 +9,6 @@ from konst.models.fields import ConstantChoiceCharField, ConstantChoiceField
 
 
 class Apple(models.Model):
-
     purposes = Constants(
         Constant(cooking=0, label=_("Cook me!")),
         Constant(eating=1, label=_("Eat me!")),

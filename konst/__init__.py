@@ -19,10 +19,10 @@ class Constant(object):
         self.label = label or self.id
 
     def __str__(self):
-        return u"{}".format(self.v)
+        return "{}".format(self.v)
 
     def __repr__(self):
-        return u"{} ({})".format(self.id, self.v)
+        return "{} ({})".format(self.id, self.v)
 
     def __resolve_other(self, other):
         if isinstance(other, Constant):
@@ -54,10 +54,10 @@ class Constant(object):
 
     def __getattr__(self, attr):
         """Allow dynamic lookup of equality and label."""
-        if attr == u"constants":
+        if attr == "constants":
             # https://nedbatchelder.com/blog/201010/surprising_getattr_recursion.html
             raise AttributeError(
-                u"`constants` not set on Constant so cannot check equality"
+                "`constants` not set on Constant so cannot check equality"
             )
         if attr in self.constants.by_id:
             return self.v == self.constants.by_id[attr].v
@@ -65,7 +65,7 @@ class Constant(object):
             return self.id in self.constants.groups[attr].constant_ids
         else:
             raise AttributeError(
-                u"'{}' object has no attribute '{}'".format(
+                "'{}' object has no attribute '{}'".format(
                     self.__class__.__name__, attr
                 )
             )
@@ -100,7 +100,7 @@ class Constants(object):
             elif isinstance(a, ConstantGroup):
                 self.groups[a.name] = a
             else:
-                raise ValueError(u"Received unexpected arg: {}".format(a))
+                raise ValueError("Received unexpected arg: {}".format(a))
 
         # setup useful precomputed lookups
         self.choices = [(k.v, k.label) for k in self.constants]
@@ -111,7 +111,7 @@ class Constants(object):
         for name, group in self.groups.items():
             if hasattr(self, name):
                 raise ValueError(
-                    u"ConstantGroup with name `{}` clashes with existing attribute.".format(
+                    "ConstantGroup with name `{}` clashes with existing attribute.".format(
                         name
                     )
                 )

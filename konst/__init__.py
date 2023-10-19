@@ -29,6 +29,13 @@ class Constant(object):
             return other.v
         return other
 
+    def __deepcopy__(self, memo):
+        copy = Constant(self.label, **{self.id: self.v})
+        # This does *not* deepcopy the constants object, since that is
+        # considered external
+        copy.constants = self.constants
+        return copy
+
     def __eq__(self, other):
         return self.v == self.__resolve_other(other)
 

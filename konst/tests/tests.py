@@ -250,3 +250,22 @@ class DRFConstantChoiceFieldTestCase(TestCase):
         self.assertTrue(instance.colour.red)
         self.assertTrue(instance.purpose.eating)
         self.assertTrue(instance.purpose.culinary)
+
+
+class DeepCopyTestCase(TestCase):
+    fixtures = ["test_apples"]
+
+    def setUp(self):
+        self.purposes = DRFConstantChoiceField(Apple.purposes)
+        self.colours = DRFConstantChoiceField(Apple.colours)
+
+    def test_can_deepcopy(self):
+        original = Apple.objects.first()
+        other = copy.deepcopy(original)
+        self.assertTrue(original is not other)
+        self.assertTrue(original == other)
+        self.assertTrue(original.purpose == other.purpose)
+        self.assertTrue(original.purpose is not other.purpose)
+        self.assertTrue(original.colour is not other.colour)
+        self.assertTrue(original.purpose.constants is other.purpose.constants)
+        self.assertTrue(original.colour.constants is other.colour.constants)

@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
-from django.utils.translation import ugettext_lazy as _
+import django
+
+if django.VERSION[0] >= 4:
+    from django.utils.translation import gettext_lazy as _
+else:
+    from django.utils.translation import ugettext_lazy as _
 
 from rest_framework.fields import Field
 

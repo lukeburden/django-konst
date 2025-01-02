@@ -7,7 +7,7 @@ import sys
 
 from django.core.management import call_command
 from django.test import TestCase
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from rest_framework import serializers
 
@@ -24,20 +24,20 @@ except ImportError:
 
 class ConstantTestCase(TestCase):
     def test_repr(self):
-        self.assertEqual(repr(Apple.purposes.cooking), u"cooking (0)")
-        self.assertEqual(repr(Apple.colours.red), u"red (FF0000)")
+        self.assertEqual(repr(Apple.purposes.cooking), "cooking (0)")
+        self.assertEqual(repr(Apple.colours.red), "red (FF0000)")
 
     def test_str(self):
-        self.assertEqual(str(Apple.purposes.cooking), u"0")
-        self.assertEqual(str(Apple.colours.red), u"FF0000")
+        self.assertEqual(str(Apple.purposes.cooking), "0")
+        self.assertEqual(str(Apple.colours.red), "FF0000")
 
     def test_comparison_with_int(self):
         self.assertEqual(Apple.purposes.cooking, 0)
         self.assertNotEqual(Apple.purposes.cooking, 1)
 
     def test_comparison_with_char(self):
-        self.assertEqual(Apple.colours.red, u"FF0000")
-        self.assertNotEqual(Apple.colours.red, u"FF0001")
+        self.assertEqual(Apple.colours.red, "FF0000")
+        self.assertNotEqual(Apple.colours.red, "FF0001")
 
     def test_comparison_with_constant(self):
         self.assertEqual(Apple.purposes.cooking, Apple.purposes.cooking)
@@ -75,7 +75,6 @@ class ConstantTestCase(TestCase):
 
 
 class ConstantChoiceFieldTestCase(TestCase):
-
     fixtures = ["test_apples"]
 
     def setUp(self):
@@ -83,7 +82,7 @@ class ConstantChoiceFieldTestCase(TestCase):
 
     def test_create_and_save(self):
         gala = Apple.objects.create(
-            name=u"Gala", colour=Apple.colours.red, purpose=Apple.purposes.eating
+            name="Gala", colour=Apple.colours.red, purpose=Apple.purposes.eating
         )
         self.assertTrue(isinstance(gala.colour, Constant))
         self.assertTrue(isinstance(gala.purpose, Constant))
@@ -97,12 +96,12 @@ class ConstantChoiceFieldTestCase(TestCase):
         self.assertTrue(instance.colour.green)
         self.assertTrue(instance.purpose.cooking)
 
-    def test_widget_force_text(self):
+    def test_widget_force_str(self):
         self.assertEqual(
-            force_text(self.instance.colour), u"{}".format(self.instance.colour.v)
+            force_str(self.instance.colour), "{}".format(self.instance.colour.v)
         )
         self.assertEqual(
-            force_text(self.instance.purpose), u"{}".format(self.instance.purpose.v)
+            force_str(self.instance.purpose), "{}".format(self.instance.purpose.v)
         )
 
     def test_getattr_equality_check(self):
@@ -121,7 +120,7 @@ class ConstantChoiceFieldTestCase(TestCase):
         # if the grannysmith exists we"re good
         # as the tests have already loaded the fixture
         instance = Apple.objects.all().first()
-        self.assertEqual(instance.name, u"Granny Smith")
+        self.assertEqual(instance.name, "Granny Smith")
         self.assertTrue(instance.colour.green)
         self.assertTrue(instance.purpose.cooking)
 
@@ -133,7 +132,7 @@ class ConstantChoiceFieldTestCase(TestCase):
         dumped_data = json.loads(sys.stdout.getvalue())
         sys.stdout = sysout
         self.assertEqual(
-            dumped_data[0]["fields"]["colour"], u"{}".format(Apple.colours.green)
+            dumped_data[0]["fields"]["colour"], "{}".format(Apple.colours.green)
         )
 
     def test_copy(self):
@@ -172,7 +171,6 @@ class ConstantChoiceFieldTestCase(TestCase):
 
 
 class ConstantJSONSerializerTestCase(TestCase):
-
     # Can"t make it serializable by default .. use our custom encoder
     def test_json_serializable(self):
         data = {
@@ -183,7 +181,6 @@ class ConstantJSONSerializerTestCase(TestCase):
 
 
 class AppleSerializer(serializers.ModelSerializer):
-
     purpose = DRFConstantChoiceField(Apple.purposes)
     colour = DRFConstantChoiceField(Apple.colours)
 
@@ -193,7 +190,6 @@ class AppleSerializer(serializers.ModelSerializer):
 
 
 class DRFConstantChoiceFieldTestCase(TestCase):
-
     fixtures = ["test_apples"]
 
     def setUp(self):
@@ -202,13 +198,11 @@ class DRFConstantChoiceFieldTestCase(TestCase):
 
     def test_to_representation_int_backed(self):
         self.assertEqual(
-            self.purposes.to_representation(Apple.purposes.cooking), u"cooking"
+            self.purposes.to_representation(Apple.purposes.cooking), "cooking"
         )
 
     def test_to_representation_string_backed(self):
-        self.assertEqual(
-            self.colours.to_representation(Apple.colours.yellow), u"yellow"
-        )
+        self.assertEqual(self.colours.to_representation(Apple.colours.yellow), "yellow")
 
     def test_to_internal_value_int_backed(self):
         self.assertEqual(
@@ -221,12 +215,12 @@ class DRFConstantChoiceFieldTestCase(TestCase):
     def test_to_internal_value_not_a_valid_option_int_backed(self):
         with self.assertRaises(serializers.ValidationError) as e:
             self.colours.to_internal_value("purple")
-        self.assertEqual(e.exception.detail, [u'"purple" is not a valid choice.'])
+        self.assertEqual(e.exception.detail, ['"purple" is not a valid choice.'])
 
     def test_to_internal_value_not_a_valid_option_string_backed(self):
         with self.assertRaises(serializers.ValidationError) as e:
             self.purposes.to_internal_value("mincing")
-        self.assertEqual(e.exception.detail, [u'"mincing" is not a valid choice.'])
+        self.assertEqual(e.exception.detail, ['"mincing" is not a valid choice.'])
 
     def test_in_serializer_output(self):
         instance = Apple.objects.all().first()
@@ -243,8 +237,8 @@ class DRFConstantChoiceFieldTestCase(TestCase):
         self.assertEqual(
             serializer.errors,
             {
-                "colour": [u'"blue" is not a valid choice.'],
-                "purpose": [u'"dicing" is not a valid choice.'],
+                "colour": ['"blue" is not a valid choice.'],
+                "purpose": ['"dicing" is not a valid choice.'],
             },
         )
 
@@ -256,3 +250,22 @@ class DRFConstantChoiceFieldTestCase(TestCase):
         self.assertTrue(instance.colour.red)
         self.assertTrue(instance.purpose.eating)
         self.assertTrue(instance.purpose.culinary)
+
+
+class DeepCopyTestCase(TestCase):
+    fixtures = ["test_apples"]
+
+    def setUp(self):
+        self.purposes = DRFConstantChoiceField(Apple.purposes)
+        self.colours = DRFConstantChoiceField(Apple.colours)
+
+    def test_can_deepcopy(self):
+        original = Apple.objects.first()
+        other = copy.deepcopy(original)
+        self.assertTrue(original is not other)
+        self.assertTrue(original == other)
+        self.assertTrue(original.purpose == other.purpose)
+        self.assertTrue(original.purpose is not other.purpose)
+        self.assertTrue(original.colour is not other.colour)
+        self.assertTrue(original.purpose.constants is other.purpose.constants)
+        self.assertTrue(original.colour.constants is other.colour.constants)

@@ -2,14 +2,13 @@
 from __future__ import absolute_import
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from konst import Constant, ConstantGroup, Constants
 from konst.models.fields import ConstantChoiceCharField, ConstantChoiceField
 
 
 class Apple(models.Model):
-
     purposes = Constants(
         Constant(cooking=0, label=_("Cook me!")),
         Constant(eating=1, label=_("Eat me!")),

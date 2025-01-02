@@ -4,10 +4,10 @@ common: &common
   working_directory: ~/repo
   steps:
     - checkout
-    - restore_cache:
-        keys:
-          - v2-deps-{{ .Environment.CIRCLE_JOB }}-{{ checksum "setup.py" }}-{{ checksum "tox.ini" }}
-          - v2-deps-
+    # - restore_cache:
+    #     keys:
+    #       - v2-deps-{{ .Environment.CIRCLE_JOB }}-{{ checksum "setup.py" }}-{{ checksum "tox.ini" }}
+    #       - v2-deps-
     - run:
         name: install dependencies
         command: pip install --user tox
@@ -32,412 +32,201 @@ jobs:
   checkqa:
     <<: *common
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.13
         environment:
           - TOXENV=checkqa
           - UPLOAD_COVERAGE=0
 
-  py36dj22:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-dj22
-  py36dj30:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-dj30
-  py36dj31:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-dj31
-  py36dj32:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-dj32
-  py36dj40:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-dj40
-  py36dj41:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-dj41
-  py36dj42:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-dj42
-  py36djmaster:
-    <<: *common
-    docker:
-      - image: circleci/python:3.6
-        environment:
-          TOXENV=py36-djmaster
-
-  py37dj22:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-dj22
-  py37dj30:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-dj30
-  py37dj31:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-dj31
-  py37dj32:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-dj32
-  py37dj40:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-dj40
-  py37dj41:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-dj41
-  py37dj42:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-dj42
-  py37djmaster:
-    <<: *common
-    docker:
-      - image: circleci/python:3.7
-        environment:
-          TOXENV=py37-djmaster
-
-  py38dj22:
-    <<: *common
-    docker:
-      - image: circleci/python:3.8
-        environment:
-          TOXENV=py38-dj22
-  py38dj30:
-    <<: *common
-    docker:
-      - image: circleci/python:3.8
-        environment:
-          TOXENV=py38-dj30
-  py38dj31:
-    <<: *common
-    docker:
-      - image: circleci/python:3.8
-        environment:
-          TOXENV=py38-dj31
   py38dj32:
     <<: *common
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
         environment:
           TOXENV=py38-dj32
   py38dj40:
     <<: *common
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
         environment:
           TOXENV=py38-dj40
   py38dj41:
     <<: *common
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
         environment:
           TOXENV=py38-dj41
   py38dj42:
     <<: *common
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
         environment:
           TOXENV=py38-dj42
-  py38djmaster:
-    <<: *common
-    docker:
-      - image: circleci/python:3.8
-        environment:
-          TOXENV=py38-djmaster
 
-  py39dj22:
-    <<: *common
-    docker:
-      - image: circleci/python:3.9
-        environment:
-          TOXENV=py39-dj22
-  py39dj30:
-    <<: *common
-    docker:
-      - image: circleci/python:3.9
-        environment:
-          TOXENV=py39-dj30
-  py39dj31:
-    <<: *common
-    docker:
-      - image: circleci/python:3.9
-        environment:
-          TOXENV=py39-dj31
   py39dj32:
     <<: *common
     docker:
-      - image: circleci/python:3.9
+      - image: cimg/python:3.9
         environment:
           TOXENV=py39-dj32
   py39dj40:
     <<: *common
     docker:
-      - image: circleci/python:3.9
+      - image: cimg/python:3.9
         environment:
           TOXENV=py39-dj40
   py39dj41:
     <<: *common
     docker:
-      - image: circleci/python:3.9
+      - image: cimg/python:3.9
         environment:
           TOXENV=py39-dj41
   py39dj42:
     <<: *common
     docker:
-      - image: circleci/python:3.9
+      - image: cimg/python:3.9
         environment:
           TOXENV=py39-dj42
-  py39djmaster:
-    <<: *common
-    docker:
-      - image: circleci/python:3.9
-        environment:
-          TOXENV=py39-djmaster
 
-  py310dj22:
-    <<: *common
-    docker:
-      - image: circleci/python:3.10
-        environment:
-          TOXENV=py310-dj22
-  py310dj30:
-    <<: *common
-    docker:
-      - image: circleci/python:3.10
-        environment:
-          TOXENV=py310-dj30
-  py310dj31:
-    <<: *common
-    docker:
-      - image: circleci/python:3.10
-        environment:
-          TOXENV=py310-dj31
   py310dj32:
     <<: *common
     docker:
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10
         environment:
           TOXENV=py310-dj32
   py310dj40:
     <<: *common
     docker:
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10
         environment:
           TOXENV=py310-dj40
   py310dj41:
     <<: *common
     docker:
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10
         environment:
           TOXENV=py310-dj41
   py310dj42:
     <<: *common
     docker:
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10
         environment:
           TOXENV=py310-dj42
+  py310dj50:
+    <<: *common
+    docker:
+      - image: cimg/python:3.10
+        environment:
+          TOXENV=py310-dj50
+  py310dj51:
+    <<: *common
+    docker:
+      - image: cimg/python:3.10
+        environment:
+          TOXENV=py310-dj51
   py310djmaster:
     <<: *common
     docker:
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10
         environment:
           TOXENV=py310-djmaster
 
-  py311dj22:
-    <<: *common
-    docker:
-      - image: circleci/python:3.11
-        environment:
-          TOXENV=py311-dj22
-  py311dj30:
-    <<: *common
-    docker:
-      - image: circleci/python:3.11
-        environment:
-          TOXENV=py311-dj30
-  py311dj31:
-    <<: *common
-    docker:
-      - image: circleci/python:3.11
-        environment:
-          TOXENV=py311-dj31
-  py311dj32:
-    <<: *common
-    docker:
-      - image: circleci/python:3.11
-        environment:
-          TOXENV=py311-dj32
-  py311dj40:
-    <<: *common
-    docker:
-      - image: circleci/python:3.11
-        environment:
-          TOXENV=py311-dj40
   py311dj41:
     <<: *common
     docker:
-      - image: circleci/python:3.11
+      - image: cimg/python:3.11
         environment:
           TOXENV=py311-dj41
   py311dj42:
     <<: *common
     docker:
-      - image: circleci/python:3.11
+      - image: cimg/python:3.11
         environment:
           TOXENV=py311-dj42
+  py311dj50:
+    <<: *common
+    docker:
+      - image: cimg/python:3.11
+        environment:
+          TOXENV=py311-dj50
+  py311dj51:
+    <<: *common
+    docker:
+      - image: cimg/python:3.11
+        environment:
+          TOXENV=py311-dj51
   py311djmaster:
     <<: *common
     docker:
-      - image: circleci/python:3.11
+      - image: cimg/python:3.11
         environment:
           TOXENV=py311-djmaster
 
-  py312dj22:
-    <<: *common
-    docker:
-      - image: circleci/python:3.12
-        environment:
-          TOXENV=py312-dj22
-  py312dj30:
-    <<: *common
-    docker:
-      - image: circleci/python:3.12
-        environment:
-          TOXENV=py312-dj30
-  py312dj31:
-    <<: *common
-    docker:
-      - image: circleci/python:3.12
-        environment:
-          TOXENV=py312-dj31
-  py312dj32:
-    <<: *common
-    docker:
-      - image: circleci/python:3.12
-        environment:
-          TOXENV=py312-dj32
-  py312dj40:
-    <<: *common
-    docker:
-      - image: circleci/python:3.12
-        environment:
-          TOXENV=py312-dj40
-  py312dj41:
-    <<: *common
-    docker:
-      - image: circleci/python:3.12
-        environment:
-          TOXENV=py312-dj41
   py312dj42:
     <<: *common
     docker:
-      - image: circleci/python:3.12
+      - image: cimg/python:3.12
         environment:
           TOXENV=py312-dj42
+  py312dj50:
+    <<: *common
+    docker:
+      - image: cimg/python:3.12
+        environment:
+          TOXENV=py312-dj50
+  py312dj51:
+    <<: *common
+    docker:
+      - image: cimg/python:3.12
+        environment:
+          TOXENV=py312-dj51
   py312djmaster:
     <<: *common
     docker:
-      - image: circleci/python:3.12
+      - image: cimg/python:3.12
         environment:
           TOXENV=py312-djmaster
+
+  py313dj51:
+    <<: *common
+    docker:
+      - image: cimg/python:3.13
+        environment:
+          TOXENV=py313-dj51
+  py313djmaster:
+    <<: *common
+    docker:
+      - image: cimg/python:3.13
+        environment:
+          TOXENV=py313-djmaster
 
 workflows:
   version: 2
   test:
     jobs:
       - checkqa
-      - py36dj22
-      - py36dj30
-      - py36dj31
-      - py36dj32
-      - py36dj40
-      - py36dj41
-      - py36dj42
-      - py36djmaster
-      - py37dj22
-      - py37dj30
-      - py37dj31
-      - py37dj32
-      - py37dj40
-      - py37dj41
-      - py37dj42
-      - py37djmaster
-      - py38dj22
-      - py38dj30
-      - py38dj31
       - py38dj32
       - py38dj40
       - py38dj41
       - py38dj42
-      - py38djmaster
-      - py39dj22
-      - py39dj30
-      - py39dj31
       - py39dj32
       - py39dj40
       - py39dj41
       - py39dj42
-      - py39djmaster
-      - py310dj22
-      - py310dj30
-      - py310dj31
       - py310dj32
       - py310dj40
       - py310dj41
       - py310dj42
+      - py310dj50
+      - py310dj51
       - py310djmaster
-      - py311dj22
-      - py311dj30
-      - py311dj31
-      - py311dj32
-      - py311dj40
       - py311dj41
       - py311dj42
+      - py311dj50
+      - py311dj51
       - py311djmaster
-      - py312dj22
-      - py312dj30
-      - py312dj31
-      - py312dj32
-      - py312dj40
-      - py312dj41
       - py312dj42
+      - py312dj50
+      - py312dj51
       - py312djmaster
+      - py313dj51
+      - py313djmaster

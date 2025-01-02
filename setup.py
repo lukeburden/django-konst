@@ -19,7 +19,7 @@ setup(
     description=description,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="2.0.0",
+    version="3.0.0",
     license="MIT",
     url=url,
     packages=find_packages(),

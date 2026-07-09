@@ -1,17 +1,14 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
 from django.db.models import CharField, PositiveSmallIntegerField
 
 from .. import Constant
 
 
-class ConstantChoiceFieldMixin(object):
+class ConstantChoiceFieldMixin:
     def __init__(self, *args, **kwargs):
         self.constants = kwargs.pop("constants", None)
         if self.constants:
             kwargs["choices"] = self.constants.choices
-        super(ConstantChoiceFieldMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def to_python(self, value):
         # print "to_python: {}: {}".format(type(value), value)
@@ -37,9 +34,7 @@ class ConstantChoiceFieldMixin(object):
         return self.constants.by_value.get(value)
 
     def get_db_prep_value(self, value, connection, prepared=False):
-        value = super(ConstantChoiceFieldMixin, self).get_db_prep_value(
-            value, connection, prepared
-        )
+        value = super().get_db_prep_value(value, connection, prepared)
         # print "get_db_prep_value: {}: {}".format(type(value), value)
         if value is None:
             return None
@@ -60,7 +55,7 @@ class ConstantChoiceCharField(ConstantChoiceFieldMixin, CharField):
             return value
         if isinstance(value, Constant):
             return value
-        return self.constants.by_value.get("{}".format(value))
+        return self.constants.by_value.get(f"{value}")
 
 
 __all__ = [ConstantChoiceField, ConstantChoiceCharField]

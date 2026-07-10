@@ -6,6 +6,18 @@
 [![Codecov](https://codecov.io/gh/lukeburden/django-konst/branch/master/graph/badge.svg)](https://codecov.io/gh/lukeburden/django-konst)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
+## Deprecated
+
+**`django-konst` is no longer actively maintained.** Everything it does is now covered by Django's
+own [`models.IntegerChoices` / `models.TextChoices`](https://docs.djangoproject.com/en/stable/ref/models/fields/#enumeration-types)
+(built on Python's `enum.Enum`, available since Django 3.0), so there's no need for a third-party
+library to get named, labelled constants with `choices` support.
+
+**4.0.0 is the final planned release.** It exists to give existing dependents a version that works
+with currently-supported Python (3.10-3.14) and Django (5.2 LTS, 6.0) before you migrate away, not
+to signal ongoing feature development. See [Migrating away from django-konst](#migrating-away-from-django-konst)
+below for the modern equivalent of each feature. No further releases, bug fixes, or new Django/Python
+version support are planned; the repository will be archived at some point after this release.
 
 ## django-konst
 
@@ -268,6 +280,113 @@ apple.save()
 ```
 
 Regardless of whether you're using `django-konst` for your constants, it's good practice to not hard-code constant values in order to avoid subtle mistakes and to ease changes in the future.
+
+
+## Migrating away from django-konst
+
+Django's built-in [`models.IntegerChoices` / `models.TextChoices`](https://docs.djangoproject.com/en/stable/ref/models/fields/#enumeration-types)
+cover nearly everything below, with better IDE/type-checker support than `django-konst`'s dynamic
+attribute lookups, and no third-party dependency.
+
+### Defining constants
+
+```python
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+class Purpose(models.IntegerChoices):
+    COOKING = 0, _("Cook me!")
+    EATING = 1, _("Eat me!")
+    JUICING = 2, _("Juice me!")
+    ORNAMENTAL = 3, _("Just look how pretty I am!")
+
+class Colour(models.TextChoices):
+    RED = "FF0000", _("red")
+    GREEN = "00FF00", _("green")
+    YELLOW = "FFFF80", _("yellow")
+    WHITE = "FFFFFF", _("white")
+```
+
+### Model fields
+
+No custom field class needed — `IntegerChoices`/`TextChoices` members *are* `int`/`str` instances,
+so a plain field with `choices=` does the job, and you get `get_purpose_display()` for free:
+
+```python
+class Apple(models.Model):
+    purpose = models.IntegerField(choices=Purpose.choices)
+    colour = models.CharField(choices=Colour.choices, max_length=6)
+```
+
+### Using constants
+
+```python
+apple.purpose == Apple.Purpose.COOKING  # rather than apple.purpose.cooking
+apple.purpose = Apple.Purpose.EATING
+apple.get_purpose_display()             # "Cook me!" -- Django provides this automatically
+```
+
+There's no built-in equivalent of `ConstantGroup`; a plain set (optionally as a classmethod or
+module-level constant) covers it:
+
+```python
+CULINARY_PURPOSES = {Purpose.COOKING, Purpose.EATING, Purpose.JUICING}
+
+apple.purpose in CULINARY_PURPOSES  # rather than apple.purpose.culinary
+```
+
+### Forms
+
+Usually nothing to do — `ModelForm` generates the right field automatically from `choices=`. For a
+bare (non-model) form field: `forms.TypedChoiceField(choices=Purpose.choices, coerce=Purpose)`.
+
+### JSON serialization
+
+Nothing to do — `IntegerChoices`/`TextChoices` members are plain `int`/`str` subclasses, so
+`json.dumps()` handles them natively. `django-konst`'s custom encoder isn't needed.
+
+### DRF: exposing the member name instead of the raw value
+
+The one place stock DRF doesn't do quite what `konst.extras.drf.fields.ConstantChoiceField` did —
+expose `"cooking"` over the API rather than the raw `0` — is exposing an enum by its *name*. DRF
+doesn't ship a field for this, but it's a small enough one to own directly rather than depend on a
+library for. Copy this into your own codebase and adapt as needed:
+
+```python
+from rest_framework.fields import Field
+
+class EnumNameField(Field):
+    """Expose a Django Choices enum member by its name (e.g. "cooking") rather
+    than its underlying value (e.g. 0)."""
+
+    default_error_messages = {"invalid_choice": '"{input}" is not a valid choice.'}
+
+    def __init__(self, choices_enum, **kwargs):
+        self.choices_enum = choices_enum
+        super().__init__(**kwargs)
+
+    def to_internal_value(self, data):
+        try:
+            return self.choices_enum[str(data).upper()]
+        except KeyError:
+            self.fail("invalid_choice", input=data)
+
+    def to_representation(self, value):
+        try:
+            return self.choices_enum(value).name.lower()
+        except ValueError:
+            return None
+```
+
+```python
+class AppleSerializer(serializers.ModelSerializer):
+    purpose = EnumNameField(Purpose)
+    colour = EnumNameField(Colour)
+
+    class Meta:
+        model = Apple
+        fields = ("name", "purpose", "colour")
+```
 
 
 ## Contribute

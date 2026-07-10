@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-konst"
-version = "3.0.0"
+version = "4.0.0"
 description = "Convenient constants fields for Django"
 readme = "README.md"
 license = { text = "MIT" }
@@ -12,7 +12,7 @@ authors = [{ name = "Luke Burden", email = "lukeburden@gmail.com" }]
 requires-python = ">=3.10"
 dependencies = ["django>=5.2"]
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 7 - Inactive",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",

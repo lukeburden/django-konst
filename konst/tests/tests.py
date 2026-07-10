@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
 import copy
+from io import StringIO
 import pickle
 import sys
 
@@ -14,12 +12,6 @@ from rest_framework import serializers
 from konst import Constant, ConstantGroup, Constants, json
 from konst.extras.drf.fields import ConstantChoiceField as DRFConstantChoiceField
 from konst.tests.models import Apple
-
-
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
 
 
 class ConstantTestCase(TestCase):
@@ -48,9 +40,7 @@ class ConstantTestCase(TestCase):
     def test_constant_in_group(self):
         self.assertEqual(
             Apple.purposes.culinary,
-            set(
-                [Apple.purposes.eating, Apple.purposes.cooking, Apple.purposes.juicing]
-            ),
+            set([Apple.purposes.eating, Apple.purposes.cooking, Apple.purposes.juicing]),
         )
 
     def test_two_groups_defined(self):
@@ -97,12 +87,8 @@ class ConstantChoiceFieldTestCase(TestCase):
         self.assertTrue(instance.purpose.cooking)
 
     def test_widget_force_str(self):
-        self.assertEqual(
-            force_str(self.instance.colour), "{}".format(self.instance.colour.v)
-        )
-        self.assertEqual(
-            force_str(self.instance.purpose), "{}".format(self.instance.purpose.v)
-        )
+        self.assertEqual(force_str(self.instance.colour), f"{self.instance.colour.v}")
+        self.assertEqual(force_str(self.instance.purpose), f"{self.instance.purpose.v}")
 
     def test_getattr_equality_check(self):
         self.assertTrue(self.instance.colour.green)
@@ -131,9 +117,7 @@ class ConstantChoiceFieldTestCase(TestCase):
         call_command("dumpdata", "tests.apple")
         dumped_data = json.loads(sys.stdout.getvalue())
         sys.stdout = sysout
-        self.assertEqual(
-            dumped_data[0]["fields"]["colour"], "{}".format(Apple.colours.green)
-        )
+        self.assertEqual(dumped_data[0]["fields"]["colour"], f"{Apple.colours.green}")
 
     def test_copy(self):
         # https://nedbatchelder.com/blog/201010/surprising_getattr_recursion.html
@@ -156,15 +140,13 @@ class ConstantChoiceFieldTestCase(TestCase):
         try:
             colour = pickle.loads(c)
         except RuntimeError as r:
-            self.fail("Loading pickled constant raised RuntimeError: {}".format(r))
+            self.fail(f"Loading pickled constant raised RuntimeError: {r}")
         else:
             self.assertTrue(colour.red)
             self.assertFalse(colour.green)
 
     def test_group_in_filter(self):
-        self.assertEqual(
-            Apple.objects.filter(purpose__in=Apple.purposes.culinary).count(), 1
-        )
+        self.assertEqual(Apple.objects.filter(purpose__in=Apple.purposes.culinary).count(), 1)
         instance = Apple.objects.filter(purpose__in=Apple.purposes.culinary).first()
         self.assertEqual(self.instance, instance)
         self.assertTrue(instance.purpose.culinary)
@@ -197,17 +179,13 @@ class DRFConstantChoiceFieldTestCase(TestCase):
         self.colours = DRFConstantChoiceField(Apple.colours)
 
     def test_to_representation_int_backed(self):
-        self.assertEqual(
-            self.purposes.to_representation(Apple.purposes.cooking), "cooking"
-        )
+        self.assertEqual(self.purposes.to_representation(Apple.purposes.cooking), "cooking")
 
     def test_to_representation_string_backed(self):
         self.assertEqual(self.colours.to_representation(Apple.colours.yellow), "yellow")
 
     def test_to_internal_value_int_backed(self):
-        self.assertEqual(
-            self.purposes.to_internal_value("eating"), Apple.purposes.eating
-        )
+        self.assertEqual(self.purposes.to_internal_value("eating"), Apple.purposes.eating)
 
     def test_to_internal_value_string_backed(self):
         self.assertEqual(self.colours.to_internal_value("red"), Apple.colours.red)

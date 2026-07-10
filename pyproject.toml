@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-konst"
+version = "3.0.0"
+description = "Convenient constants fields for Django"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Luke Burden", email = "lukeburden@gmail.com" }]
+requires-python = ">=3.10"
+dependencies = ["django>=5.2"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
+[project.urls]
+Homepage = "https://github.com/lukeburden/django-konst"
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-django", "djangorestframework>=3.14"]
+
+[tool.setuptools.packages.find]
+include = ["konst*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = ["konst/tests/migrations"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "C90", "Q"]
+ignore = ["E501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+known-first-party = ["konst"]
+force-sort-within-sections = true
+lines-after-imports = 2
+section-order = [
+    "future",
+    "standard-library",
+    "django",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+[tool.ruff.lint.isort.sections]
+django = ["django"]
+
+[tool.coverage.run]
+source = ["konst"]
+omit = ["konst/tests/*"]
+branch = true
+data_file = ".coverage"
+
+[tool.coverage.report]
+omit = ["konst/tests/*"]
+show_missing = true

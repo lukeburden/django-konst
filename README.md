@@ -2,9 +2,9 @@
 
 [![](https://img.shields.io/pypi/v/django-konst.svg)](https://pypi.python.org/pypi/django-konst/)
 [![](https://img.shields.io/badge/license-MIT-blue.svg)](https://pypi.python.org/pypi/django-konst/)
-[![CircleCI](https://circleci.com/gh/lukeburden/django-konst.svg?style=svg)](https://circleci.com/gh/lukeburden/django-konst)
+[![Test](https://github.com/lukeburden/django-konst/actions/workflows/test.yml/badge.svg)](https://github.com/lukeburden/django-konst/actions/workflows/test.yml)
 [![Codecov](https://codecov.io/gh/lukeburden/django-konst/branch/master/graph/badge.svg)](https://codecov.io/gh/lukeburden/django-konst)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 
 ## django-konst
@@ -272,36 +272,19 @@ Regardless of whether you're using `django-konst` for your constants, it's good 
 
 ## Contribute
 
-`django-konst` supports a variety of Python and Django versions. It's best if you test each one of these before committing. Our [Circle CI Integration](https://circleci.com) will test these when you push but knowing before you commit prevents from having to do a lot of extra commits to get the build to pass.
+`django-konst` follows the [supported Python](https://endoflife.date/python) and [supported Django](https://www.djangoproject.com/download/) release lines, currently Python 3.10-3.14 against Django 5.2 (LTS) and 6.0. [GitHub Actions](https://github.com/lukeburden/django-konst/actions) runs the full matrix on every push and pull request, plus an allowed-to-fail job against Django's `main` branch to surface upcoming breakage early.
 
 ### Environment Setup
 
-In order to easily test on all these Pythons and run the exact same thing that CI will execute you'll want to setup [pyenv](https://github.com/yyuu/pyenv) and install the Python versions outlined in [tox.ini](tox.ini).
-
-If you are on Mac OS X, it's recommended you use [brew](http://brew.sh/). After installing `brew` run:
+Tests run via [tox](https://tox.wiki/); install the Python versions listed in [tox.ini](tox.ini) with [pyenv](https://github.com/pyenv/pyenv), then:
 
 ```bash
-brew install pyenv pyenv-virtualenv pyenv-virtualenvwrapper
+pip install tox
+tox
 ```
 
-Next, install the various python versions we want to test against and create a virtualenv specifically for `django-konst`:
+This runs the linter (`ruff`) plus the full Python/Django test matrix. To run a single environment, e.g. Python 3.13 against Django 5.2:
 
 ```bash
-pyenv install 3.6.10
-pyenv install 3.7.6
-pyenv install 3.8.1
-pyenv virtualenv 3.8.1 konst
-pyenv activate konst
-pip install detox
-pyenv shell konst 3.6.10 3.7.6
+tox -e py313-dj52
 ```
-
-Now ensure the `konst` virtualenv is activated, make the other python versions also on our path, and run the tests!
-
-
-```bash
-pyenv shell konst 3.6.10 3.7.6
-detox
-```
-
-This will execute the test environments in parallel as defined in the `tox.ini`.

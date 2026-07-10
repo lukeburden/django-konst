@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
 from django.utils.deconstruct import deconstructible
 
 
@@ -9,7 +6,7 @@ from django.utils.deconstruct import deconstructible
 
 
 @deconstructible
-class Constant(object):
+class Constant:
     def __init__(self, label=None, **kwargs):
         self.constants = None
         assert len(kwargs) == 1
@@ -19,10 +16,10 @@ class Constant(object):
         self.label = label or self.id
 
     def __str__(self):
-        return "{}".format(self.v)
+        return f"{self.v}"
 
     def __repr__(self):
-        return "{} ({})".format(self.id, self.v)
+        return f"{self.id} ({self.v})"
 
     def __resolve_other(self, other):
         if isinstance(other, Constant):
@@ -63,19 +60,13 @@ class Constant(object):
         """Allow dynamic lookup of equality and label."""
         if attr == "constants":
             # https://nedbatchelder.com/blog/201010/surprising_getattr_recursion.html
-            raise AttributeError(
-                "`constants` not set on Constant so cannot check equality"
-            )
+            raise AttributeError("`constants` not set on Constant so cannot check equality")
         if attr in self.constants.by_id:
             return self.v == self.constants.by_id[attr].v
         if attr in self.constants.groups:
             return self.id in self.constants.groups[attr].constant_ids
         else:
-            raise AttributeError(
-                "'{}' object has no attribute '{}'".format(
-                    self.__class__.__name__, attr
-                )
-            )
+            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{attr}'")
 
     def __len__(self):
         """Allow for underlying string values."""
@@ -88,13 +79,13 @@ class Constant(object):
     __nonzero__ = __bool__
 
 
-class ConstantGroup(object):
+class ConstantGroup:
     def __init__(self, name, constant_ids):
         self.name = name
         self.constant_ids = set(constant_ids)
 
 
-class Constants(object):
+class Constants:
     def __init__(self, *args):
         self.constants = []
         self.groups = {}
@@ -107,7 +98,7 @@ class Constants(object):
             elif isinstance(a, ConstantGroup):
                 self.groups[a.name] = a
             else:
-                raise ValueError("Received unexpected arg: {}".format(a))
+                raise ValueError(f"Received unexpected arg: {a}")
 
         # setup useful precomputed lookups
         self.choices = [(k.v, k.label) for k in self.constants]
@@ -118,8 +109,6 @@ class Constants(object):
         for name, group in self.groups.items():
             if hasattr(self, name):
                 raise ValueError(
-                    "ConstantGroup with name `{}` clashes with existing attribute.".format(
-                        name
-                    )
+                    f"ConstantGroup with name `{name}` clashes with existing attribute."
                 )
             setattr(self, name, set([self.by_id[i] for i in group.constant_ids]))

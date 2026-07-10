@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
 from django.utils.translation import gettext_lazy as _
 
 from rest_framework.fields import Field
@@ -18,7 +15,7 @@ class ConstantChoiceField(Field):
     def __init__(self, constants, **kwargs):
         self.constants = constants
         self.allow_blank = kwargs.pop("allow_blank", False)
-        super(ConstantChoiceField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def to_internal_value(self, data):
         """Given a string, convert to an integer value."""

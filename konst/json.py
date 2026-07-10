@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
 import json
 
 from django.core.serializers.json import DjangoJSONEncoder
@@ -15,7 +12,7 @@ class ExtendedJSONEncoder(DjangoJSONEncoder):
         if isinstance(obj, Constant):
             return obj.v
         else:
-            return super(ExtendedJSONEncoder, self).default(obj)
+            return super().default(obj)
 
 
 def dumps(*args, **kwargs):

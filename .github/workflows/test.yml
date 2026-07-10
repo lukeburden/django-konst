@@ -34,7 +34,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: pip install tox tox-gh-actions
       - run: tox
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 

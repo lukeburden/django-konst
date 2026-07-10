@@ -43,12 +43,20 @@ line-length = 100
 target-version = "py310"
 exclude = ["konst/tests/migrations"]
 
+[tool.ruff.format]
+quote-style = "double"
+
 [tool.ruff.lint]
-select = ["E", "F", "I", "W", "UP"]
+select = ["E", "F", "I", "W", "UP", "C90", "Q"]
 ignore = ["E501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
 
 [tool.ruff.lint.isort]
 known-first-party = ["konst"]
+force-sort-within-sections = true
+lines-after-imports = 2
 section-order = [
     "future",
     "standard-library",

@@ -1,5 +1,6 @@
 import os
 
+
 DEBUG = True
 USE_TZ = True
 TIME_ZONE = "UTC"

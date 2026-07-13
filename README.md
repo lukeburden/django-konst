@@ -288,6 +288,14 @@ Django's built-in [`models.IntegerChoices` / `models.TextChoices`](https://docs.
 cover nearly everything below, with better IDE/type-checker support than `django-konst`'s dynamic
 attribute lookups, and no third-party dependency.
 
+On that last point specifically: `django-konst` resolves things like `Apple.purposes.cooking` and
+`apple.purpose.culinary` via `__getattr__` and runtime `setattr` calls -- those attributes don't
+exist until a `Constants(...)` call executes, so no static analyzer or IDE (mypy, pyright/Pylance,
+PyCharm) can see them, and you get no autocomplete and no "unknown attribute" errors on typos.
+`IntegerChoices`/`TextChoices` members are real, declared class attributes (`Purpose.COOKING` is
+just an enum member), so every type checker and IDE understands them for free, with no plugin or
+extra tooling required.
+
 ### Defining constants
 
 ```python

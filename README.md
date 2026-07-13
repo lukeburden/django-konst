@@ -8,10 +8,14 @@
 
 ## Deprecated
 
-**`django-konst` is no longer actively maintained.** Everything it does is now covered by Django's
-own [`models.IntegerChoices` / `models.TextChoices`](https://docs.djangoproject.com/en/stable/ref/models/fields/#enumeration-types)
+**`django-konst` is no longer actively maintained.** The core problem it solves -- named, labelled
+constants with `choices` support -- is now covered by Django's own
+[`models.IntegerChoices` / `models.TextChoices`](https://docs.djangoproject.com/en/stable/ref/models/fields/#enumeration-types)
 (built on Python's `enum.Enum`, available since Django 3.0), so there's no need for a third-party
-library to get named, labelled constants with `choices` support.
+library for that. It's a trade-off rather than a strict replacement, though: you lose some
+syntactic sugar -- `apple.purpose.cooking` and group-membership checks like `apple.purpose.culinary`
+become explicit `==`/`in` checks -- in exchange for attributes that are visible to static analysis
+and IDE autocomplete (see [below](#migrating-away-from-django-konst)).
 
 **4.0.0 is the final planned release.** It exists to give existing dependents a version that works
 with currently-supported Python (3.10-3.14) and Django (5.2 LTS, 6.0) before you migrate away, not
